@@ -1,0 +1,89 @@
+AUTOEXEC 0x060127c4 vdp1_ResetDrawListState UNSURE vdp1_ResetDrawListState resets draw list ptr/count and frame counter wrap at 3; only caller is a cd lock wrapper so context is contradictory
+AUTOEXEC 0x0601a5d8 bigint_RoundBitCheck RENAME bigint_RoundIncrement tests round/sticky bits then propagates carry through set bits and sets next bit; returns 1 on overflow
+AUTOEXEC 0x0601a6ec libc_SetBitInByteBuffer RENAME bigint_SetStickyBit ORs a bit into a bignum byte buffer if lower bytes nonzero; used in dtoa MulNormalize/PowerOfTenBig before rounding
+AUTOEXEC 0x06057c90 vdp1_SetFbcrMode CONFIRM vdp1_SetFbcrMode caller vdp2_InitDisplay calls it (0,0,0) after vdp1 init; sets FBCR bits and erase values
+AUTOEXEC 0x060597f8 vdp2_SetPackedFieldRegs UNSURE vdp2_SetPackedFieldRegs called (7,1,0) in display init but target register not identifiable
+AUTOEXEC 0x06059cd8 vdp2_SetDisplayStateMode CONFIRM vdp2_SetDisplayStateMode called with 1 in display init just before frame sync wait; decodes mode into display state and control reg
+AUTOEXEC 0x0605a248 cd_StubCallReturn0 CONFIRM cd_StubCallReturn0 calls one function and returns 0; caller ignores result and uses buffer
+AUTOEXEC 0x0605ad9e gfs_FlushFile UNSURE gfs_FlushFile no callers and body is ambiguous
+AUTOEXEC 0x0605b440 gfs_SetSectorParam RENAME gfs_SetTransferMode stores value at +0xa4 and passes to gfstrn_SetMode on the transfer sub-object
+AUTOEXEC 0x0605b4fa gfs_SetStreamParam RENAME gfs_SetTransferCallback forwards value to gfstrn_SetCallback on the transfer sub-object
+AUTOEXEC 0x0605bd1a gfs_SetReadComplete RENAME gfs_SetReadTotal callers pass the clamped remaining byte count to start a read; stores it as the transfer total
+AUTOEXEC 0x0605cd3c text_SetupOutputPtr UNSURE text_SetupOutputPtr called from vblank vector setup with many args; purpose of buffers unclear
+AUTOEXEC 0x0605e416 vdp2_GetRegField12 RENAME vdp2_GetColorRamMode callers compare result to 0,1,2 to pick color RAM entry size and bank limits
+AUTOEXEC 0x0605f090 vdp2_InitRegsA UNSURE vdp2_InitRegsA part of vdp2_ResetEffects register clears; specific registers unknown
+AUTOEXEC 0x0605f600 vdp2_InitRegsB UNSURE vdp2_InitRegsB part of vdp2_ResetEffects register clears; specific registers unknown
+AUTOEXEC 0x0605f6dc vdp2_InitRegsC UNSURE vdp2_InitRegsC part of vdp2_ResetEffects register clears; specific registers unknown
+AUTOEXEC 0x0605f76c vdp2_InitRegsD UNSURE vdp2_InitRegsD part of vdp2_ResetEffects register clears; specific registers unknown
+AUTOEXEC 0x0605f848 vdp2_InitRegsE UNSURE vdp2_InitRegsE part of vdp2_ResetEffects register clears; specific registers unknown
+AUTOEXEC 0x0605f904 vdp2_InitRegsF UNSURE vdp2_InitRegsF part of vdp2_ResetEffects register clears; specific registers unknown
+AUTOEXEC 0x060614d8 wrap_CallFunctionA RENAME cd_InitCommandBlock every cd_ command passes its 12-byte local command buffer to it first, then fills in the command byte
+AUTOEXEC 0x060614ea cd_GetStatusNoCopy CONFIRM cd_GetStatusNoCopy tail-forwards args (0,cmd,resp) to cd_GetStatusCopy; callers read response from their own buffer
+AUTOEXEC 0x060614ee cd_GetStatusTemp CONFIRM cd_GetStatusTemp runs command and discards response into a local 12-byte temp; callers only use the status return
+AUTOEXEC 0x0606315c gfs_StartStream UNSURE gfs_StartStream no callers; queues a sector op, evidence thin
+AUTOEXEC 0x06063198 gfs_FlushStream CONFIRM gfs_FlushStream resets the selector on the stream handle then polls; gfsstrm_Seek uses it to discard buffered data
+AUTOEXEC 0x06063430 gfs_SetTransferTarget RENAME gfs_SeekDiscToPosition forwards a position struct {1,offset} to the seek-disc wrapper; gfs_SeekCdPosition is the only real user
+AUTOEXEC 0x06063442 gfs_RequestRead RENAME gfs_ChangeFilterSync calls cdc_QueueChangeFilter then polls until done, returns 1/0; no read request in body (callers listed are unrelated)
+AUTOEXEC 0x0606347e gfsstrm_AllocHandle CONFIRM gfsstrm_AllocHandle acquires a CD block lock token, stores it at +0x1c, 1 on success; gfs_SeekCdPosition uses it as acquire
+AUTOEXEC 0x060634b6 gfs_ReleaseHandleA RENAME gfs_IsLockHeld calls cdc_LockIsHeld on +0x1c; gfs_BeginCdRead treats 0 as failure, so it is a check not a release
+AUTOEXEC 0x060638f4 cdc_QueueSectorOp UNSURE cdc_QueueSectorOp queues a 0x10-byte entry for one of 24 selectors; callers pass a small struct but the exact CD command is not clear
+AUTOEXEC 0x06063990 cdc_SetupTransfer RENAME cdc_GetFilterModeAndSubheader reads filter mode and subheader for a selector then updates the status cache, error -10; no callers
+AUTOEXEC 0x060639d2 cdc_QueueChangeFilter CONFIRM cdc_QueueChangeFilter checks lock token and runs the slot-1 handler named ChangeFilter
+AUTOEXEC 0x06063a32 cdc_AbortCommandA RENAME cdc_PlayDiscLocked verifies lock token and drive status then calls cd_PlayDisc with the position struct; gfs_BeginCdRead passes a play range
+AUTOEXEC 0x06063c78 cdc_StopCommandB RENAME cdc_SeekDiscLocked verifies lock token and drive status then calls cd_SeekDisc; used by the seek wrapper for a position
+AUTOEXEC 0x06063d72 cdc_CheckFilterCommand RENAME cdc_GetSectorInfoChecked range-checks selector 0-0x17 and in-use flag then calls cdc_GetSectorInfo; -6 on failure; no callers
+AUTOEXEC 0x06063dbc cdc_QueueChangeDirectory CONFIRM cdc_QueueChangeDirectory validates selector and fills slot 7 which runs the ChangeDirectory handler; cd_WaitReady polls it with id and 0x17
+MENU 0x060187b4 menu_SumLapFractionTable UNSURE menu_SumLapFractionTable loops 5 divisions summing table values; caller stores the byte in a record slot but its meaning is unknown
+MENU 0x060c6554 scl_BuildVramAccessTable UNSURE scl_BuildVramAccessTable consumes a config struct of flags and two 64-entry tables into VDP2 work arrays; callers do not show the exact role
+MENU 0x060ca4e4 text_ConsoleKickFlush CONFIRM text_ConsoleKickFlush returns 1 if busy, else sets busy flag, copies 3 bytes to hardware regs and kicks 0x10; called from init and per-frame step
+MENU 0x060cfa56 gfs_SetField2c RENAME gfstrn_SetUnitCount stores into transfer struct +0x2c; gfstrn_InitTransfer calls it with 1 as the unit count
+MENU 0x060cfa7a gfs_SetFlag30 RENAME gfstrn_SetStartFlag sets transfer struct +0x30 to 1 after total size and file entry are set, right before the read is marked started
+MAP1_1 0x06012128 math_GetResultElementA RENAME math_LookupWordA local array filled from constant template via memcpy then indexed by a short argument; a const table lookup, callers list unrelated
+MAP1_1 0x0601219e math_GetResultElementC RENAME math_LookupWordC local array filled from constant template via memcpy then indexed by a short argument; a const table lookup
+MAP1_1 0x06012208 math_GetResultShortElement RENAME math_LookupShort local short array filled from constant template via memcpy then indexed by a short argument
+MAP1_1 0x06012674 map_PlaceThreeMarkers RENAME map_SpawnThreeProjectiles copies three coordinate triples and calls weapon_SpawnProjectile(5,...) once per entry
+MAP1_1 0x060129b0 sys_LargeRoutine_060129b0 UNSURE sys_LargeRoutine_060129b0 decompile timed out and listed caller is unrelated; no evidence
+MAP1_1 0x06016200 sys_LargeRoutine_06016200 UNSURE sys_LargeRoutine_06016200 decompile timed out and listed caller is unrelated; no evidence
+MAP1_1 0x06019c08 snd_SetupDefaultChannel RENAME cd_InitSystemDefault body is a single call to cd_InitSystem with fixed args 0,0,5,0xf
+MAP1_1 0x06019c26 snd_SendPlayCommand RENAME cd_PlayAudioTrack builds CD play-command block (track in start/end fields, repeat 99) and calls cd_PlayDisc; callers pass 9/10 as track on lap record and damage
+MAP1_1 0x06019ea8 snd_PlaySfxSelect CONFIRM snd_PlaySfxSelect callers pass (0,0) for sfx on events; picks id 0x3b+n or 0x3c and queues it
+MAP1_1 0x06019f20 snd_SendVolumeCommand UNSURE snd_SendVolumeCommand no callers; packed-flags command with +0x10 variant, role not provable
+MAP1_1 0x0601ec5c sys_CallWithDefaultArgs RENAME lzss_DecompressDefaultAsset only calls lzss_Decompress with a fixed source and destination
+MAP1_1 0x0601ee84 gfx_EndFrameSetup RENAME vdp2_ApplyDamageShake flag at struct+0x36 is the car damage timer (set in car_ApplyDamage); random scroll jitter when set, else zero scroll
+MAP1_1 0x06020074 car_UpdateAll_Large UNSURE car_UpdateAll_Large 11410 bytes, no decompile, caller list unhelpful
+MAP1_1 0x0603d42c libgcc_StoreTail RENAME sh2_HwDivide32 writes divisor/dividend to the SH-2 divide unit registers and reads quotient; callers divide by 100 and 10 to split digits
+MAP1_1 0x060de792 vdp_WaitStatusBit2 CONFIRM vdp_WaitStatusBit2 spin on status bit 1, called just before vdp2_WaitFrameSync in the per-frame pad poll
+MAP1_1 0x060ebb94 math_SinTableInterp RENAME math_TrigTableInterp callers feed it both angle and (quarter - angle) in cos and sin wrappers so it is a generic quarter-wave table interpolation
+ROOM1 0x0608185e gfstrn_SetField2c CONFIRM gfstrn_SetField2c setter used by InitTransfer with 1
+ROOM1 0x0608187c gfstrn_SwapField14 CONFIRM gfstrn_SwapField14 swap returns old value, used by SetStreamParam and SetErrorCallback
+ROOM1 0x06081882 gfstrn_SetFlag30 CONFIRM gfstrn_SetFlag30 sets flag, called from StartRead and StartTransferAll
+ROOM1 0x060854f0 math_SinLookupSigned UNSURE math_SinLookupSigned no callers; same code as math_TrigTableSigned but calls a differently named table helper
+STATION 0x06070f6e gfs_SetHandleField2c CONFIRM gfs_SetHandleField2c setter used by InitTransfer with 1
+STATION 0x06070f8c gfs_SwapHandleField14 CONFIRM gfs_SwapHandleField14 swap returns old value, used by SetStreamParam and SetErrorCallback
+STATION 0x06070f92 gfs_SetHandleFlag30 CONFIRM gfs_SetHandleFlag30 sets flag, called from StartRead and StartTransferAll
+END 0x06017a4a vdp2_SetPlaneAddrAndScroll RENAME gfx_DecompressAndLoadTextures decompresses a block then sets texture VRAM base and loads texture list; called from end_DrawContinuePrompt screen
+MAP4_1 0x060160b0 race_UpdateMain_provisional UNSURE race_UpdateMain_provisional 6KB, no decompile, callers unhelpful
+MAP4_1 0x06035f7c gfx_DrawTrackSectionA_provisional UNSURE gfx_DrawTrackSectionA_provisional called from race_RenderFrame, large polygon builder but exact role unproven
+MAP4_1 0x06036934 gfx_DrawTrackSectionB_provisional UNSURE gfx_DrawTrackSectionB_provisional no callers, variant of A
+MAP4_1 0x06037e74 gfx_DrawTrackSectionC_provisional UNSURE gfx_DrawTrackSectionC_provisional callers span line flush, sprite sort and init, role unclear
+MAPW1_1 0x060120ce math_GetResultElementE UNSURE math_GetResultElementE copies words to a local array then indexes it; purpose unclear
+MAPW1_1 0x0601292c race_LargeRoutine_0601292c UNSURE race_LargeRoutine_0601292c decompile timed out; only caller cd_LoadFileAndWait does not visibly call it
+MAPW6_1 0x060165f4 race_LargeRoutine_060165f4 UNSURE race_LargeRoutine_060165f4 decompile timed out; only caller cd_LoadFileAndWait does not visibly call it
+ROOM3 0x0607bdf4 sys_GetConstant_r3 UNSURE sys_GetConstant_r3 returns pool constant; caller gfsstrm_Seek shows no visible use, meaning unknown
+ROOM3 0x06082796 gfs_SetObjField2c_r3 RENAME gfstrn_SetUnitCount only caller gfstrn_InitTransfer calls it with 1 on a transfer struct (unit count)
+ROOM3 0x060827ba gfs_SetObjFlag30_r3 RENAME gfstrn_SetStartFlag gfs_StartRead sets it on transfer struct (param+0x6c) right after init of file entry; marks transfer armed
+PROLOGUE 0x060a6ec4 sys_GetConstant_pl UNSURE sys_GetConstant_pl returns pool constant; caller gfsstrm_Seek shows no visible use
+PROLOGUE 0x060ad0ce gfs_SetObjField2c_pl RENAME gfstrn_SetUnitCount only caller gfstrn_InitTransfer calls it with 1 on a transfer struct (unit count)
+PROLOGUE 0x060ad0f2 gfs_SetObjFlag30_pl RENAME gfstrn_SetStartFlag gfs_StartRead sets it on transfer struct (param+0x6c) right after init of file entry; marks transfer armed
+SMPCPK4 0x0607c000 strm_TailCallA RENAME strm_CloseAllHandles one-instruction thunk to cpk_CloseAllHandles
+SMPCPK4 0x0607c18e strm_TailCallB RENAME strm_TickWithIrqMask one-instruction thunk to cpk_TickWithIrqMask
+SMPCPK4 0x0607c3ca strm_TailCallC RENAME strm_CheckHeaderReady one-instruction thunk to cpk_CheckHeaderReady
+SMPCPK4 0x0607c5a0 strm_TailCallD RENAME strm_GetError one-instruction thunk to cpk_GetError
+SMPCPK4 0x0607c5a8 strm_TailCallE RENAME strm_SetErrorCallback one-instruction thunk to cpk_SetErrorCallback
+SMPCPK4 0x0607dfb6 cpk_ClearWord RENAME gfs_ClearHandleWord gfs_CloseHandle clears first word of the handle after unregistering it
+AAAAA000 0x06023e1e gfs_SetObjField2c_a0 RENAME gfstrn_SetUnitCount only caller gfstrn_InitTransfer calls it with 1 on a transfer struct (unit count)
+AAAAA000 0x06023e42 gfs_SetObjFlag30_a0 RENAME gfstrn_SetStartFlag gfs_StartRead sets it on transfer struct (param+0x6c) right after init of file entry; marks transfer armed
+AAAAA000 0x06027a98 sys_GetConstant_a0 UNSURE sys_GetConstant_a0 returns pool constant; caller gfsstrm_Seek shows no visible use
+AAAAA001 0x0600879e sys_GetConstant_a1 UNSURE sys_GetConstant_a1 returns pool constant; no callers
+AAAAA001 0x060095f2 gfs_SetObjField2c_a1 RENAME gfstrn_SetUnitCount only caller gfstrn_InitTransfer calls it with 1 on a transfer struct (unit count)
+AAAAA001 0x06009616 gfs_SetObjFlag30_a1 RENAME gfstrn_SetStartFlag gfs_StartRead sets it on transfer struct (param+0x6c) right after init of file entry; marks transfer armed

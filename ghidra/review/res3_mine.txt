@@ -1,0 +1,11 @@
+AUTOEXEC 0x060127c4 vdp1_ResetDrawListState CONFIRM vdp1_ResetDrawListState body resets draw list pointer/count and wraps frame counter at 3; caller link was a pool guess
+AUTOEXEC 0x0605f090 vdp2_InitRegsA CONFIRM vdp2_InitRegsA one step of vdp2_ResetEffects: clears bit fields in the VDP2 shadow register block 0x0606707c via bits_InsertField
+AUTOEXEC 0x0605f600 vdp2_InitRegsB CONFIRM vdp2_InitRegsB one step of vdp2_ResetEffects: clears bit fields in the VDP2 shadow register block 0x0606707c via bits_InsertField
+AUTOEXEC 0x0605f6dc vdp2_InitRegsC CONFIRM vdp2_InitRegsC one step of vdp2_ResetEffects: clears bit fields in the VDP2 shadow register block 0x0606707c via bits_InsertField
+AUTOEXEC 0x0605f76c vdp2_InitRegsD CONFIRM vdp2_InitRegsD one step of vdp2_ResetEffects: clears bit fields in the VDP2 shadow register block 0x0606707c via bits_InsertField
+AUTOEXEC 0x0605f848 vdp2_InitRegsE CONFIRM vdp2_InitRegsE one step of vdp2_ResetEffects: clears bit fields in the VDP2 shadow register block 0x0606707c via bits_InsertField
+AUTOEXEC 0x0605f904 vdp2_InitRegsF CONFIRM vdp2_InitRegsF one step of vdp2_ResetEffects: clears bit fields in the VDP2 shadow register block 0x0606707c via bits_InsertField
+ROOM3 0x0607bdf4 sys_GetConstant_r3 RENAME cd_GetDataPortAddr returns 0x25818000, the CD block data transfer port (next function reads HIRQ 0x25890008)
+PROLOGUE 0x060a6ec4 sys_GetConstant_pl RENAME cd_GetDataPortAddr returns 0x25818000, the CD block data transfer port (next function reads HIRQ 0x25890008)
+AAAAA000 0x06027a98 sys_GetConstant_a0 RENAME cd_GetDataPortAddr returns 0x25818000, the CD block data transfer port (next function reads HIRQ 0x25890008)
+AAAAA001 0x0600879e sys_GetConstant_a1 RENAME cd_GetDataPortAddr returns 0x25818000, the CD block data transfer port (next function reads HIRQ 0x25890008)

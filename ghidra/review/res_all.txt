@@ -1,0 +1,382 @@
+AUTOEXEC 0x06012242 sys_PollModeAndCallHooks CONFIRM sys_PollModeAndCallHooks if mode byte==2 calls hook, checks status bit 0x20 calls hook again, returns another call's result
+AUTOEXEC 0x060124c8 gfx_SetFourWordGlobals CONFIRM gfx_SetFourWordGlobals stores four 16-bit arguments into four separate global variables
+AUTOEXEC 0x060127c4 vdp1_ResetDrawListState UNSURE vdp1_ResetDrawListState body too small or generic to be sure; resets draw list pointer, count 2, increments frame counter, at 3 clears state and sets a pointer
+AUTOEXEC 0x06017866 libgcc_ShlTail14 CONFIRM libgcc_ShlTail14 jump-table tail fragment returning r0 shifted left 14
+AUTOEXEC 0x060178fc libgcc_ShrTail28 CONFIRM libgcc_ShrTail28 jump-table tail fragment returning r0 shifted right 28 logical
+AUTOEXEC 0x0601794a libgcc_SarTail8 CONFIRM libgcc_SarTail8 jump-table tail fragment returning r0 arithmetic shifted right 8
+AUTOEXEC 0x06019024 dtoa_ScaleToDigits CONFIRM dtoa_ScaleToDigits converts unpacked double to scaled decimal digit count using big-number compares and powers of ten
+AUTOEXEC 0x060192ec dtoa_BigToDigits CONFIRM dtoa_BigToDigits extracts decimal digits from 8-byte big number by repeated shift-subtract into buffer
+AUTOEXEC 0x0601959a dfpack_SignedInf CONFIRM dfpack_SignedInf soft-double helper storing infinity with sign and zero low word
+AUTOEXEC 0x060195a2 dfpack_NaN CONFIRM dfpack_NaN soft-double helper storing exponent all ones with nonzero low word (NaN)
+AUTOEXEC 0x060195ac libgcc_DivDf3 CONFIRM libgcc_DivDf3 soft-float double divide: unpack exponents, long-division subtract loop, inf and NaN cases
+AUTOEXEC 0x060198b0 dtoa_PowerOfTenBig CONFIRM dtoa_PowerOfTenBig builds 10^n as 9-byte big number from power tables, normalises and copies 8 bytes out
+AUTOEXEC 0x060199c4 math_Modf CONFIRM math_Modf splits double into integer and fractional parts via frexp and truncate helpers
+AUTOEXEC 0x06019a40 math_Frexp CONFIRM math_Frexp extracts exponent (bias subtracted) and mantissa of a double, handles zero and NaN, normalises denormals
+AUTOEXEC 0x06019b6c math_TruncDouble CONFIRM math_TruncDouble clears fractional mantissa bits of double according to exponent, keeps sign, NaN handling
+AUTOEXEC 0x06019cc4 bigint_ShiftBits_Backward CONFIRM bigint_ShiftBits_Backward shifts byte array by 8-minus param bits, processing from last byte to first with carry
+AUTOEXEC 0x06019d64 bigint_ShiftBits_Forward CONFIRM bigint_ShiftBits_Forward shifts byte array by bit count, processing from first byte to last with carry
+AUTOEXEC 0x06019f6c libgcc_UDiv16 CONFIRM libgcc_UDiv16 unsigned divide with 16-bit divisor (r0 shifted left 16) using div1 chain
+AUTOEXEC 0x0601a194 dtoa_ScaleByPow10 RENAME bigint_DivNormalize 0x42-iteration shift/subtract quotient loop with exponent param_3 minus *param_1, big-number divide, counterpart of bigint_MulNormalize
+AUTOEXEC 0x0601a404 bigint_MulNormalize CONFIRM bigint_MulNormalize multiplies two mantissas, normalises by one bit, adjusts exponent, copies 9 bytes
+AUTOEXEC 0x0601a478 dtoa_ComputePow10Scale CONFIRM dtoa_ComputePow10Scale computes 10^|n| by multiplying selected table entries per bit of n, sign picks table
+AUTOEXEC 0x0601a5d8 bigint_RoundBitCheck UNSURE bigint_RoundBitCheck body too small or generic to be sure; bit-array test and clear of trailing set bits for rounding, returns 1 on overflow
+AUTOEXEC 0x0601a6ec libc_SetBitInByteBuffer UNSURE libc_SetBitInByteBuffer body too small or generic to be sure; ORs a mask bit (from callee) into a byte buffer, scanning forward for first nonzero byte
+AUTOEXEC 0x0601ace8 libc_FloatExtractMantissa CONFIRM libc_FloatExtractMantissa converts value to 8-byte mantissa plus binary exponent in short, shifting out leading zero bits
+AUTOEXEC 0x06057c14 vdp1_QueueTransferWords CONFIRM vdp1_QueueTransferWords stores masked address/size and calls a copy helper with size shifted left one, sets update flag
+AUTOEXEC 0x06057c90 vdp1_SetFbcrMode UNSURE vdp1_SetFbcrMode body too small or generic to be sure; selects FBCR bits and erase/change values from three char mode args, calls a callback, sets update flag
+AUTOEXEC 0x060597f8 vdp2_SetPackedFieldRegs UNSURE vdp2_SetPackedFieldRegs body too small or generic to be sure; sets three bit fields (low byte, <<5, <<4) of one register after callee waits
+AUTOEXEC 0x0605993c vdp2_AllocColorBank CONFIRM vdp2_AllocColorBank finds a free colour RAM bank slot for owner id and colour count, marks it, returns address
+AUTOEXEC 0x06059cd8 vdp2_SetDisplayStateMode UNSURE vdp2_SetDisplayStateMode body too small or generic to be sure; decodes a 16-bit mode code into state 0 to 3 and writes control register with bits |3
+AUTOEXEC 0x06059da0 vdp2_WaitFrameSync CONFIRM vdp2_WaitFrameSync if enabled sets request flag and spins until two flags clear
+AUTOEXEC 0x06059dc0 vdp2_ResetFrameState CONFIRM vdp2_ResetFrameState clears all frame state flags and counters, sets mode flag to 1
+AUTOEXEC 0x06059e08 vdp2_StepFrameState CONFIRM vdp2_StepFrameState per frame state machine step, counts frames and invokes callback for states 0 1 2 3
+AUTOEXEC 0x06059eec vdp2_FinishFrameState CONFIRM vdp2_FinishFrameState applies final control register value for the frame state and clears pending flags
+AUTOEXEC 0x06059fb8 sys_MaskIrqClearFlag CONFIRM sys_MaskIrqClearFlag sets SR interrupt mask 0xf0, calls callback with constant, clears flag, restores SR
+AUTOEXEC 0x0605a008 sys_QueueRangeCheckedRequest CONFIRM sys_QueueRangeCheckedRequest range checks two address args, builds request struct (mode 1 or 2), queues it, else clears flag
+AUTOEXEC 0x0605a138 cd_PollStatusFlag CONFIRM cd_PollStatusFlag checks two flags, calls status read, returns 2 if status word equals 1 else 0
+AUTOEXEC 0x0605a20c cd_CmdGetStatusCopy CONFIRM cd_CmdGetStatusCopy builds command 0 packet, executes it and copies 8 byte response to param_1
+AUTOEXEC 0x0605a248 cd_StubCallReturn0 UNSURE cd_StubCallReturn0 body too small or generic to be sure; calls one function and returns 0
+AUTOEXEC 0x0605a504 cd_WaitCommandDone CONFIRM cd_WaitCommandDone executes command with timeout flag, returns -4 on bit 0x80, calls cd_EndDataTransfer on error
+AUTOEXEC 0x0605aa24 gfs_ReadWholeFile CONFIRM gfs_ReadWholeFile opens file by id, gets size, calls read function, closes; with id 0 uses queued path
+AUTOEXEC 0x0605ab14 gfs_ChangeDir CONFIRM gfs_ChangeDir GFS_SetDir style, calls directory function with table entries, returns -9 if no dir table
+AUTOEXEC 0x0605ad9e gfs_FlushFile UNSURE gfs_FlushFile body too small or generic to be sure; gets size, if nonzero calls a function on handle
+AUTOEXEC 0x0605b3e8 gfs_SetGmode CONFIRM gfs_SetGmode stores handle field at offset 0x58 and returns old value
+AUTOEXEC 0x0605b440 gfs_SetSectorParam UNSURE gfs_SetSectorParam body too small or generic to be sure; stores value at offset 0xa4 and forwards it to a callback
+AUTOEXEC 0x0605b49e gfs_SetTmode CONFIRM gfs_SetTmode stores handle field at offset 0x68 and returns old value
+AUTOEXEC 0x0605b4fa gfs_SetStreamParam UNSURE gfs_SetStreamParam body too small or generic to be sure; forwards a parameter to a callback and returns its result
+AUTOEXEC 0x0605b54e gfs_SetCurrentCdHandle CONFIRM gfs_SetCurrentCdHandle binds a CD-direct handle as current stream after callback accepts
+AUTOEXEC 0x0605b7be gfs_ReleaseHandleOps CONFIRM gfs_ReleaseHandleOps clears active-handle slots if matching, calls device release callback, resets handle fields
+AUTOEXEC 0x0605b83a gfs_SetErrorCode CONFIRM gfs_SetErrorCode stores error code in state, invokes registered error callback when nonzero, returns code
+AUTOEXEC 0x0605b938 gfs_InitFileHandle CONFIRM gfs_InitFileHandle calls two setup callbacks on handle+0x6c and +0xc, zeroes fields; returns handle or 0
+AUTOEXEC 0x0605b98c gfs_CheckDiscIdent CONFIRM gfs_CheckDiscIdent reads disc header block and compares 6 bytes with expected string; returns error codes -1,-2,-3,-0x19
+AUTOEXEC 0x0605ba70 gfs_ReadVolumeDescriptor CONFIRM gfs_ReadVolumeDescriptor reads volume descriptor, extracts two 4-byte fields into struct, validates sizes; error -2/-3
+AUTOEXEC 0x0605bb10 gfs_MountDisc CONFIRM gfs_MountDisc reads volume info via gfs_ReadVolumeDescriptor, opens handle, calls mount callback, closes on error
+AUTOEXEC 0x0605bb72 gfs_TransferStep CONFIRM gfs_TransferStep runs per-device transfer callback for handle, tracks busy owner, maps status via gfs_MapStatusToError
+AUTOEXEC 0x0605bc18 gfs_PollRead CONFIRM gfs_PollRead checks status flag 0x40, calls read-poll callbacks, returns 1/6 and sets or clears current-owner slot
+AUTOEXEC 0x0605bd1a gfs_SetReadComplete UNSURE gfs_SetReadComplete body too small or generic to be sure; if no buffer calls finish callback else stores value at +0x54; clears +0x50
+AUTOEXEC 0x0605bdea gfs_IsTransferDone CONFIRM gfs_IsTransferDone true if state 4 and callback says done or status flag 0x40 set
+AUTOEXEC 0x0605bec4 text_InitBuffers CONFIRM text_InitBuffers text/console init, sets mode from arg, clears state, picks cell buffers, installs callback 0x47
+AUTOEXEC 0x0605c05e text_ScrollStep CONFIRM text_ScrollStep per-frame text scroll/repeat logic, swaps double buffers, returns pointers
+AUTOEXEC 0x0605c848 text_CheckLineLimit CONFIRM text_CheckLineLimit sets state flag 1 if line counter reaches limit
+AUTOEXEC 0x0605c860 text_CheckEndMarker CONFIRM text_CheckEndMarker sets state flag 2 when pointer at/past marker and bit 0x20 set
+AUTOEXEC 0x0605c894 text_CopyAlternateBytes CONFIRM text_CopyAlternateBytes copies every second source byte into destination up to limit
+AUTOEXEC 0x0605c8cc text_StoreColumn CONFIRM text_StoreColumn copies one column of bytes into row-strided cell buffer
+AUTOEXEC 0x0605c944 text_ResetState CONFIRM text_ResetState zeroes text scroll state variables, writes initial cell bytes
+AUTOEXEC 0x0605c9a0 text_StartTransfer CONFIRM text_StartTransfer sets busy bit, copies three params to hardware-like struct; returns 1 if already busy
+AUTOEXEC 0x0605ca14 text_FillBlankLines CONFIRM text_FillBlankLines writes blank char cells while lines remain below limit
+AUTOEXEC 0x0605cabc text_ScrollBothPages CONFIRM text_ScrollBothPages copies six state words to stack and scrolls region twice via text_ScrollRegion
+AUTOEXEC 0x0605cb06 text_ScrollRegion CONFIRM text_ScrollRegion moves rows of 2-byte cells between buffers, fills new rows with blank, returns done flag
+AUTOEXEC 0x0605cd3c text_SetupOutputPtr UNSURE text_SetupOutputPtr body too small or generic to be sure; sets buffer pointers (second at +0xc) then calls helper with 2,2
+AUTOEXEC 0x0605cd60 text_BuildEntries CONFIRM text_BuildEntries builds two 6-byte entries from cell buffer, blank filled; swaps buffers and returns pointer
+AUTOEXEC 0x0605cfb4 snd_LoadDriver CONFIRM snd_LoadDriver sends SMPC cmd 7 (SNDOFF), copies sound driver to sound RAM, sets pointers, SMPC cmd 6 (SNDON)
+AUTOEXEC 0x0605d12a snd_FindAndSetFlag CONFIRM snd_FindAndSetFlag finds entry via snd_FindEntryByTag, passes args then ORs flag bit into word
+AUTOEXEC 0x0605d160 snd_CmdResetAndSend CONFIRM snd_CmdResetAndSend waits on sound command queue then issues same command byte twice, waits completion
+AUTOEXEC 0x0605d214 snd_CmdOneByteA CONFIRM snd_CmdOneByteA queues sound command with one byte arg if free slot; returns 1 if none
+AUTOEXEC 0x0605d282 snd_CmdOneByteB CONFIRM snd_CmdOneByteB queues sound command with one byte arg (different command id)
+AUTOEXEC 0x0605d2fc snd_CmdTwoBytes CONFIRM snd_CmdTwoBytes queues sound command with two byte args
+AUTOEXEC 0x0605d4c0 snd_CmdNoArgA CONFIRM snd_CmdNoArgA queues no-argument sound command if free slot
+AUTOEXEC 0x0605d51e snd_CmdNoArgB CONFIRM snd_CmdNoArgB queues another no-argument sound command
+AUTOEXEC 0x0605d586 snd_CmdFourBytes CONFIRM snd_CmdFourBytes queues sound command with four byte args
+AUTOEXEC 0x0605d628 snd_CmdOneByteC CONFIRM snd_CmdOneByteC queues sound command with one byte arg
+AUTOEXEC 0x0605d696 snd_CmdOneByteD CONFIRM snd_CmdOneByteD queues sound command with one byte arg
+AUTOEXEC 0x0605d784 snd_CmdThreeBytes CONFIRM snd_CmdThreeBytes queues sound command with three byte args
+AUTOEXEC 0x0605d818 snd_CmdByteAndConverted CONFIRM snd_CmdByteAndConverted queues command with byte, helper result and second byte at offset 5
+AUTOEXEC 0x0605d8b0 snd_CmdPackedFlags CONFIRM snd_CmdPackedFlags queues command packing arg bits shifted by 3 and 5 plus two bytes
+AUTOEXEC 0x0605d970 snd_CmdOrByte CONFIRM snd_CmdOrByte queues command with byte and OR of two args
+AUTOEXEC 0x0605da04 snd_CmdSetParamsA CONFIRM snd_CmdSetParamsA queues command with packed struct fields, pan via snd_EncodePanValue, 16-bit values split
+AUTOEXEC 0x0605dba2 snd_CmdSetParamsB CONFIRM snd_CmdSetParamsB queues command from struct with pan via snd_EncodePanValue and packed bytes
+AUTOEXEC 0x0605dc8e snd_CmdNoArgC CONFIRM snd_CmdNoArgC queues no-argument sound command
+AUTOEXEC 0x0605df40 snd_FindEntryByTag CONFIRM snd_FindEntryByTag scans table of 8-byte entries until match on two keys; outputs address and entry pointer
+AUTOEXEC 0x0605dfe8 snd_WaitCommandDone CONFIRM snd_WaitCommandDone calls start function then loops polling until it returns 0
+AUTOEXEC 0x0605e104 vdp2_GetPriority CONFIRM vdp2_GetPriority reads priority-number register fields for screen bit mask (1,2,4,8,0x10,0x20)
+AUTOEXEC 0x0605e1c4 vdp2_SetPriority CONFIRM vdp2_SetPriority writes 3/4/8-bit priority fields per screen mask into VDP2 regs, updates shadow flags
+AUTOEXEC 0x0605e3c4 vdp2_ResetEffects CONFIRM vdp2_ResetEffects calls vdp2_InitRegsA and five resets, zeroes 8 state words and flags
+AUTOEXEC 0x0605e416 vdp2_GetRegField12 UNSURE vdp2_GetRegField12 body too small or generic to be sure; returns masked VDP2 register value shifted right 12
+AUTOEXEC 0x0605e468 vdp2_SetColorCalcRatio CONFIRM vdp2_SetColorCalcRatio per-screen mask sets 5-bit color calculation ratio fields (ratio>=0x20 disables)
+AUTOEXEC 0x0605e9e8 vdp2_FadeTick CONFIRM vdp2_FadeTick state machine stepping palette ramp and color offset values toward targets, writes via vdp2_AddColorOffset
+AUTOEXEC 0x0605efac vdp2_AddColorOffset CONFIRM vdp2_AddColorOffset writes color offset A (+4,+6,+8) or B (+10,+12,+14) R/G/B regs
+AUTOEXEC 0x0605f090 vdp2_InitRegsA UNSURE vdp2_InitRegsA body too small or generic to be sure; clears many bit fields in a bank of 8 VDP2 registers via wait helper
+AUTOEXEC 0x0605f600 vdp2_InitRegsB UNSURE vdp2_InitRegsB body too small or generic to be sure; clears bit fields in four VDP2 registers via wait helper
+AUTOEXEC 0x0605f6dc vdp2_InitRegsC UNSURE vdp2_InitRegsC body too small or generic to be sure; sets/clears bits in three VDP2 registers, writes 4 to third
+AUTOEXEC 0x0605f76c vdp2_InitRegsD UNSURE vdp2_InitRegsD body too small or generic to be sure; clears bit fields in four VDP2 registers via wait helper
+AUTOEXEC 0x0605f848 vdp2_InitRegsE UNSURE vdp2_InitRegsE body too small or generic to be sure; clears bit fields in registers, zeroes third
+AUTOEXEC 0x0605f904 vdp2_InitRegsF UNSURE vdp2_InitRegsF body too small or generic to be sure; clears bit fields in eight registers then zeroes six more
+AUTOEXEC 0x0605fd20 math_Sin CONFIRM math_Sin angle to sine via table helper with quadrant folding; sign flip by flag arg
+AUTOEXEC 0x0605fdbc math_Cos CONFIRM math_Cos angle to cosine via table helper with quadrant folding; returns constant at angle 0
+AUTOEXEC 0x06060130 vdp2_UpdateRotationParams CONFIRM vdp2_UpdateRotationParams for RBG0 rotation param A/B updates matrix, scroll and line coefficient table using math_Sin/math_Cos
+AUTOEXEC 0x06060df8 vdp2_RotateRotParamMatrix CONFIRM vdp2_RotateRotParamMatrix rotates rotation-parameter coefficients by angle using sin/cos fixed multiplies
+AUTOEXEC 0x06060f6c vdp2_AddRotationAngle CONFIRM vdp2_AddRotationAngle adds delta to rotation angle with wrap, rebuilds rotation matrix entries
+AUTOEXEC 0x060610f0 cache_PurgeAll CONFIRM cache_PurgeAll clears SH-2 cache address array for all ways using CCR bits, then re-enables cache
+AUTOEXEC 0x060611d0 cache_PurgeRange CONFIRM cache_PurgeRange zeroes cache-line addresses in range (16-byte stride) in cache address array region
+AUTOEXEC 0x06061200 scu_SetupDmaChannel CONFIRM scu_SetupDmaChannel writes SCU DMA channel regs (32-byte stride) from param struct: read/write addr, count, add, mode
+AUTOEXEC 0x06061260 scu_InitDmaChannel CONFIRM scu_InitDmaChannel picks interrupt vector 0x4b/0x4a/0x49 for channel 0-2, saves old vector, installs handler, sets mask
+AUTOEXEC 0x06061330 scu_GetDmaChannelState CONFIRM scu_GetDmaChannelState copies per-channel state byte to out pointer
+AUTOEXEC 0x060614d8 wrap_CallFunctionA UNSURE wrap_CallFunctionA body too small or generic to be sure; tail wrapper calling a function pointer with no args
+AUTOEXEC 0x060614ea cd_GetStatusNoCopy UNSURE cd_GetStatusNoCopy body too small or generic to be sure; calls cd_GetStatusCopy with caller args
+AUTOEXEC 0x060614ee cd_GetStatusTemp UNSURE cd_GetStatusTemp body too small or generic to be sure; calls cd_GetStatusCopy with local 12-byte buffer and mode 1
+AUTOEXEC 0x06061500 cd_GetStatusCopy CONFIRM cd_GetStatusCopy calls CD status callback, on success stores status byte or converts via cd_ConvertStatusFormat
+AUTOEXEC 0x06061570 cd_CallWithSavedSr CONFIRM cd_CallWithSavedSr raises SR interrupt mask, calls callback with saved level, restores SR
+AUTOEXEC 0x060615d8 gfs_ReadDirectory CONFIRM gfs_ReadDirectory checks CD flag 0x80, selects short or long directory record parsing (0x0c/0x18 entries)
+AUTOEXEC 0x06061648 gfs_FindDirEntry CONFIRM gfs_FindDirEntry searches directory entries (0x18 stride) for name match, stops on last-entry flag; returns index or -1
+AUTOEXEC 0x060616f4 cd_WaitReadyDefault CONFIRM cd_WaitReadyDefault calls cd_WaitReady with default constant
+AUTOEXEC 0x06061700 cd_WaitReady CONFIRM cd_WaitReady loops CD command 0x17 until success, maps errors -5, -0xc, -0x10 to codes
+AUTOEXEC 0x0606177c gfs_ParseDirShort CONFIRM gfs_ParseDirShort reads directory records via gfs_ReadRecord into 0xc-byte entries until count or end
+AUTOEXEC 0x060617ea gfs_ParseDirLong CONFIRM gfs_ParseDirLong reads directory records into 0x18-byte entries, compares with previous to skip duplicates
+AUTOEXEC 0x06061a6c gfs_StreamReadByteRefill CONFIRM gfs_StreamReadByteRefill buffered CD stream byte read with sector refill via callback, error code out param
+AUTOEXEC 0x06061e0a gfs_DirRecToFileInfo CONFIRM gfs_DirRecToFileInfo copies extent, size, attribute and unit bytes from parsed record into file info
+AUTOEXEC 0x06061e46 gfstrn_DispatchInit CONFIRM gfstrn_DispatchInit calls mode-indexed function table entry 0 (stride 0x10) on transfer object
+AUTOEXEC 0x06061e60 gfstrn_DispatchOp1 CONFIRM gfstrn_DispatchOp1 calls mode-indexed function table entry +4 on transfer object
+AUTOEXEC 0x06061e80 gfstrn_DispatchOp2 CONFIRM gfstrn_DispatchOp2 calls mode-indexed function table entry +8 with object at +0x1c
+AUTOEXEC 0x06061ea8 gfstrn_DispatchOp3 CONFIRM gfstrn_DispatchOp3 calls mode-indexed function table entry +0xc on transfer object
+AUTOEXEC 0x06061f16 gfstrn_SetTotalSize CONFIRM gfstrn_SetTotalSize sets transfer total at +0x18, clears position, resets state 6 to 0
+AUTOEXEC 0x06061f42 gfstrn_Finish CONFIRM gfstrn_Finish runs state machine until done, frees pending buffers, sets state 6, uses timeout counter
+AUTOEXEC 0x0606205a gfstrn_StepSimple CONFIRM gfstrn_StepSimple simplified transfer step, allocs source, calls handler, advances byte count, to state 6 when finished
+AUTOEXEC 0x060621cc gfstrn_AllocSource CONFIRM gfstrn_AllocSource computes chunk size bounded by remaining and limit, allocates source buffer
+AUTOEXEC 0x06062244 gfstrn_SetupDestWindow CONFIRM gfstrn_SetupDestWindow sizes destination window from unit count and remaining, allocates xfer node
+AUTOEXEC 0x0606234c scu_SetupDmaStrided CONFIRM scu_SetupDmaStrided builds DMA parameter block with direction flags and sizes, calls start, stores globals
+AUTOEXEC 0x06062520 gfstrn_DestPrepare CONFIRM gfstrn_DestPrepare dispatches by destination address range through 0xc-stride handler table entry 0
+AUTOEXEC 0x06062572 gfstrn_CopyChunk CONFIRM gfstrn_CopyChunk copies one chunk to destination via handler table or user callback, updates offset
+AUTOEXEC 0x06062654 gfstrn_DestIsDone CONFIRM gfstrn_DestIsDone dispatches destination done-check through handler table entry +8
+AUTOEXEC 0x06062788 gfs_TranslateOpenResult CONFIRM gfs_TranslateOpenResult clears then sets flag bit around call, maps CD error codes -0x10..-0xd to GFS errors
+AUTOEXEC 0x060628fa gfs_SetReadLimit CONFIRM gfs_SetReadLimit sets byte limit at +0x54 and computes remaining relative to current position
+AUTOEXEC 0x06062b60 gfs_BeginCdRead CONFIRM gfs_BeginCdRead checks stream ready then issues command struct with code 3, returns 8 on failure or 2
+AUTOEXEC 0x06062bd8 gfs_SeekCdPosition CONFIRM gfs_SeekCdPosition checks drive state, converts offset via form size, issues seek command, maps error codes
+AUTOEXEC 0x06062c74 gfs_FormToByteOffset CONFIRM gfs_FormToByteOffset converts sector offset to byte offset based on sector form byte at +0xc
+AUTOEXEC 0x06062dce gfs_MapCdStateToGfs CONFIRM gfs_MapCdStateToGfs maps CD state 0-6 to GFS state codes, stores in out param
+AUTOEXEC 0x06062e54 gfs_PlanReadChunk CONFIRM gfs_PlanReadChunk computes read chunk size and CD buffer window limits, sets state 1, 2 or 4
+AUTOEXEC 0x06062f9c gfs_OpenCdStream CONFIRM gfs_OpenCdStream acquires resources through helpers, sets stream fields, returns 1 on success 0 on failure
+AUTOEXEC 0x06063088 gfs_CloseCdStream CONFIRM gfs_CloseCdStream releases two resources held at +4 and +0xc
+AUTOEXEC 0x060630a0 gfsstrm_ReadBytes CONFIRM gfsstrm_ReadBytes reads bytes through CD stream, adjusts count by sector offset, returns count read
+AUTOEXEC 0x0606315c gfs_StartStream UNSURE gfs_StartStream body too small or generic to be sure; stores value at +0x18 and starts stream then finalizes if first call fails
+AUTOEXEC 0x06063198 gfs_FlushStream UNSURE gfs_FlushStream body too small or generic to be sure; calls flush with handle at +4 and then finalizes
+AUTOEXEC 0x06063430 gfs_SetTransferTarget UNSURE gfs_SetTransferTarget body too small or generic to be sure; passes param and handle at +0x1c to helper
+AUTOEXEC 0x06063442 gfs_RequestRead UNSURE gfs_RequestRead body too small or generic to be sure; issues read request with handle +0xc and +0x1c, returns 1 on success
+AUTOEXEC 0x0606347e gfsstrm_AllocHandle UNSURE gfsstrm_AllocHandle body too small or generic to be sure; allocates handle through helper and stores at +0x1c, returns 1 on success
+AUTOEXEC 0x060634b6 gfs_ReleaseHandleA UNSURE gfs_ReleaseHandleA body too small or generic to be sure; calls release helper with handle at +0x1c
+AUTOEXEC 0x060634d8 cdc_InitDrive CONFIRM cdc_InitDrive CD block init, status checks, polling HIRQ 0x40 with timeouts, reads TOC, returns negative error codes
+AUTOEXEC 0x06063726 cdc_AllocBufferPartition CONFIRM cdc_AllocBufferPartition scans 0x18 used flags at +0x18, marks free one, -3 if none
+AUTOEXEC 0x06063760 cdc_FreeBufferPartition CONFIRM cdc_FreeBufferPartition range check then clears used flag at +0x18
+AUTOEXEC 0x0606378e cdc_AllocFilter CONFIRM cdc_AllocFilter scans 0x18 used flags at +0, marks free one, -4 if none
+AUTOEXEC 0x060637bc cdc_FreeFilter CONFIRM cdc_FreeFilter resets selector, waits, clears used flag
+AUTOEXEC 0x060638f4 cdc_QueueSectorOp UNSURE cdc_QueueSectorOp queues 0x10-byte entry to slot 0 but exact command not clear
+AUTOEXEC 0x06063990 cdc_SetupTransfer UNSURE cdc_SetupTransfer three indirect calls only, purpose unclear
+AUTOEXEC 0x060639d2 cdc_QueueChangeFilter UNSURE cdc_QueueChangeFilter slot 1 with one param after lock check; command identity not shown
+AUTOEXEC 0x06063a32 cdc_AbortCommandA UNSURE cdc_AbortCommandA two indirect calls after status check, unclear
+AUTOEXEC 0x06063a94 cdc_QueueCalcActualSize CONFIRM cdc_QueueCalcActualSize slot 2 whose handler computes clamped actual size
+AUTOEXEC 0x06063b00 cdc_QueueGetSectorData CONFIRM cdc_QueueGetSectorData takes transfer lock and queues slot 3 get-data then second command
+AUTOEXEC 0x06063b54 cdc_EndSectorTransfer CONFIRM cdc_EndSectorTransfer releases lock at +0x34 to -1 and ends transfer
+AUTOEXEC 0x06063b9a cdc_QueueResetSelector CONFIRM cdc_QueueResetSelector slot 4 with selector and two params; used by FreeFilter
+AUTOEXEC 0x06063c78 cdc_StopCommandB UNSURE cdc_StopCommandB token/status check then one indirect call, unclear
+AUTOEXEC 0x06063ce6 cdc_QueueMoveSectors CONFIRM cdc_QueueMoveSectors validates two partitions in use and queues slot 5 with four params
+AUTOEXEC 0x06063d72 cdc_CheckFilterCommand UNSURE cdc_CheckFilterCommand validates filter index, one indirect call, command unclear
+AUTOEXEC 0x06063dbc cdc_QueueChangeDirectory UNSURE cdc_QueueChangeDirectory slot 7 id/filter/out ptr; directory semantics not shown
+AUTOEXEC 0x06063e40 cdc_QueueFilterConnection CONFIRM cdc_QueueFilterConnection validates true/false dest filters and appends triples to slot 6 queue
+AUTOEXEC 0x06063f38 cdc_GetFileInfoSync CONFIRM cdc_GetFileInfoSync loads directory range if needed then gets file info and sets last flag
+AUTOEXEC 0x06064006 cdc_GetScopeEndFlag CONFIRM cdc_GetScopeEndFlag returns third value of scope triple
+AUTOEXEC 0x06064238 cdc_RunSlot0_SectorQueue CONFIRM cdc_RunSlot0_SectorQueue 3-state processing of queue entries then compaction
+AUTOEXEC 0x060643d0 cdc_RunSlot1_ChangeFilter CONFIRM cdc_RunSlot1_ChangeFilter issues one command then waits HIRQ 0x40
+AUTOEXEC 0x0606443c cdc_RunSlot2_CalcActualSize CONFIRM cdc_RunSlot2_CalcActualSize sector count, clamp, actual size output
+AUTOEXEC 0x0606458c cdc_RunSlot3_GetSectorData CONFIRM cdc_RunSlot3_GetSectorData two-state get data then follow-up command
+AUTOEXEC 0x0606461c cdc_RunSlot4_ResetSelector CONFIRM cdc_RunSlot4_ResetSelector multi-state slot 4 handler with HIRQ waits, returns busy
+AUTOEXEC 0x06064744 cdc_RunSlot5_MoveSectors CONFIRM cdc_RunSlot5_MoveSectors 5-state handler using two partitions and four params then HIRQ 0x40
+AUTOEXEC 0x06064874 cdc_RunSlot7_ChangeDirectory CONFIRM cdc_RunSlot7_ChangeDirectory reads scope, loads directory if outside, changes dir, outputs count or -1
+AUTOEXEC 0x06064a52 cdc_RunSlot6_FilterConnection CONFIRM cdc_RunSlot6_FilterConnection loops triples with true/false flags, compacts queue
+AUTOEXEC 0x06064d6c math_TrigTableSigned CONFIRM math_TrigTableSigned abs, reflect about range, table lookup, negate by quadrant
+MENU 0x060165b8 snd_PlayTrackCommand CONFIRM snd_PlayTrackCommand builds play block with track+1, calls PlayDisc, sets volume by flag
+MENU 0x060186ac menu_DrawLapTimeBreakdown CONFIRM menu_DrawLapTimeBreakdown divides summed time into min:sec:frac two-digit fields with separators
+MENU 0x060187b4 menu_SumLapFractionTable UNSURE menu_SumLapFractionTable loop of five table sums with divides, meaning of data unclear
+MENU 0x06019f18 menu_OptionsToggleSoundMode CONFIRM menu_OptionsToggleSoundMode left/right toggles 0/1 setting and applies sound volume
+MENU 0x0601b2e8 libgcc_ShiftJumpTable CONFIRM libgcc_ShiftJumpTable count 0..31 dispatch via byte table, 0 for 32 and above
+MENU 0x0601da9c libgcc_AShr32 CONFIRM libgcc_AShr32 shift with sign fill (0xffffffff for negative when count>=32)
+MENU 0x0601dbb4 math_ShiftJumpTable_2 RENAME libgcc_ShiftJumpTableB same count 0..31 jump-table shift as libgcc helper, different table; libgcc style name
+MENU 0x0601e6bc bignum_MulShorts CONFIRM bignum_MulShorts 4x16-bit limb schoolbook multiply into 8-limb result
+MENU 0x060c5078 vdp1_SetEraseWriteArea CONFIRM vdp1_SetEraseWriteArea stores erase data and corner coords, writes EWLR/EWRR-style words
+MENU 0x060c53dc vdp2_SetVramCyclePattern RENAME vdp2_SetVramBankRoles 2-bit per-bank fields at shifts 0,2,4,6 of reg +0xe (RAMCTL) with coefficient table addresses
+MENU 0x060c64a0 scl_InitConfigWork CONFIRM scl_InitConfigWork zeroes config struct, 0x40-entry table and 12-byte records
+MENU 0x060c6554 scl_BuildVramAccessTable UNSURE scl_BuildVramAccessTable packs enable flags and builds tables from 12-byte records; not clearly a VRAM cycle pattern
+MENU 0x060c6734 vdp2_ResetShadowRegs CONFIRM vdp2_ResetShadowRegs zeroes many shadow register blocks and defaults
+MENU 0x060c6940 scl_SuspendUpdateSetArg CONFIRM scl_SuspendUpdateSetArg clears update flag if 1 and stores arg
+MENU 0x060c6954 scl_RequestUpdate CONFIRM scl_RequestUpdate sets update flag 0 to 1
+MENU 0x060c6a76 vdp2_AddScrollPosition CONFIRM vdp2_AddScrollPosition adds x/y deltas per screen mask
+MENU 0x060c6bc8 vdp2_SetScrollZoom CONFIRM vdp2_SetScrollZoom stores zoom x/y per screen with reciprocal and clamp
+MENU 0x060c6cf4 vdp2_CopyShadowToRegs CONFIRM vdp2_CopyShadowToRegs copies shadow blocks with fixed sizes to VDP2
+MENU 0x060c6dda vdp2_FlushRegisters CONFIRM vdp2_FlushRegisters on update flag copies shadows then transfers flagged tables
+MENU 0x060c6e90 vdp2_SetRamCtlMode CONFIRM vdp2_SetRamCtlMode mode 0-2 into color RAM mode bits of reg +0xe, requests update
+MENU 0x060c6ef4 scl_TransferFlaggedTables CONFIRM scl_TransferFlaggedTables per-bit copies of tables sized 0x10,8,6,8,8,0x10
+MENU 0x060c74e0 scl_InitScreenChannel CONFIRM scl_InitScreenChannel channel 1 or 2 state reset, clears 0x80-stride block, calls update
+MENU 0x060c7d9a cd_GetStatusChecked CONFIRM cd_GetStatusChecked reads status, converts, returns -8 on bad status bits
+MENU 0x060c7ed0 cd_GetToc CONFIRM cd_GetToc command 0x02 then reads TOC data words
+MENU 0x060c8146 cd_EncodePosition CONFIRM cd_EncodePosition mode 0-3 position to 3 command bytes
+MENU 0x060c82ac cd_ReadDataWords CONFIRM cd_ReadDataWords copies halfwords from data reg, checks count, -7 mismatch
+MENU 0x060c8350 cd_ExecCommand CONFIRM cd_ExecCommand HIRQ wait, send command, read response, error codes
+MENU 0x060c86a6 gfs_GetDirRecordPtr CONFIRM gfs_GetDirRecordPtr range-checked dir entry pointer +0xc
+MENU 0x060c889a gfs_IsEof CONFIRM gfs_IsEof size <= tell
+MENU 0x060c92b2 gfs_AllocHandle CONFIRM gfs_AllocHandle finds free handle slot and marks used
+MENU 0x060c97f8 gfs_CalcFileSector CONFIRM gfs_CalcFileSector base extent plus offset converted via sector size/gap
+MENU 0x060ca4e4 text_ConsoleKickFlush UNSURE text_ConsoleKickFlush busy flag and hardware register copy, purpose unclear
+MENU 0x060cb8a4 snd_QueueCmdTwoArgsShifted CONFIRM snd_QueueCmdTwoArgsShifted args<<5 into slot bytes 2,3
+MENU 0x060cb93c snd_QueueCmdTwoArgsMapped CONFIRM snd_QueueCmdTwoArgsMapped args encoded via pan encoder into slot
+MENU 0x060cbb46 snd_FindFreeCmdSlot CONFIRM snd_FindFreeCmdSlot scans 8 slots of 0x10 for empty
+MENU 0x060cf02e fs_ReadEntryThunk RENAME fs_GetStatusCopyThunk tail stub to cd_GetStatusCopy, not a read entry
+MENU 0x060cf238 fs_CallWithConstThunk RENAME fs_WaitReadyThunk stub calls cd_WaitReady with constant arg
+MENU 0x060cf3fc gfs_ReadBytes CONFIRM gfs_ReadBytes buffered 2048-byte sector reads with refill
+MENU 0x060cf628 iso9660_ParseDirRecord CONFIRM iso9660_ParseDirRecord reads extent, size, flags, name
+MENU 0x060cfa56 gfs_SetField2c UNSURE gfs_SetField2c tiny accessor, field meaning unclear
+MENU 0x060cfa74 gfs_SwapField14 CONFIRM gfs_SwapField14 exchanges field +0x14 and returns old
+MENU 0x060cfa7a gfs_SetFlag30 UNSURE gfs_SetFlag30 tiny setter of field +0x30
+MENU 0x060cfb1c gfstrn_StepN CONFIRM gfstrn_StepN runs 1 or 2 Step calls, stops on error/finish
+MENU 0x060cfc12 gfstrn_Step CONFIRM gfstrn_Step state machine 0-6 with alloc source, dest window, copy, release
+MENU 0x060d0370 gfs_FillFileInfo CONFIRM gfs_FillFileInfo fills handle from dir record or file info, sector counts, opens stream
+MENU 0x060d0802 cd_MapStatusToState CONFIRM cd_MapStatusToState maps status nibble to small codes
+MENU 0x060d0d10 gfsstrm_Seek CONFIRM gfsstrm_Seek mode relative/absolute, flushes or skips buffered data
+MENU 0x060d1b7c cdc_PollQueues CONFIRM cdc_PollQueues polls HIRQ/status and runs 8 slots
+MENU 0x060d1c6e cdc_SlotIsIdle CONFIRM cdc_SlotIsIdle returns pending counter of slot 0-7 == 0
+MENU 0x060d1d4a cdc_PollUntilDone CONFIRM cdc_PollUntilDone sets timeout and loops PollQueues while 1
+MENU 0x060d28f4 math_TableInterpolate CONFIRM math_TableInterpolate linear interpolation in 4-byte table by high 16 bits
+MENU 0x060d35fa cdc_GetFileInfo CONFIRM cdc_GetFileInfo command 0x73 with 24-bit param then reads data
+MAP1_1 0x06012128 math_GetResultElementA UNSURE math_GetResultElementA helper fills array, index returned; purpose unclear
+MAP1_1 0x0601219e math_GetResultElementC UNSURE math_GetResultElementC helper fills array, index returned; purpose unclear
+MAP1_1 0x06012208 math_GetResultShortElement UNSURE math_GetResultShortElement helper fills short array, index returned; purpose unclear
+MAP1_1 0x0601224c map_SpawnCourseObjects CONFIRM map_SpawnCourseObjects series of spawn calls with ids and coordinate constants
+MAP1_1 0x06012674 map_PlaceThreeMarkers UNSURE map_PlaceThreeMarkers three helper calls then loop of three placements, object type unclear
+MAP1_1 0x060129b0 sys_LargeRoutine_060129b0 UNSURE sys_LargeRoutine_060129b0 decompile timed out
+MAP1_1 0x06016200 sys_LargeRoutine_06016200 UNSURE sys_LargeRoutine_06016200 decompile timed out
+MAP1_1 0x06019c08 snd_SetupDefaultChannel UNSURE snd_SetupDefaultChannel stub calling helper with constants 0,0,5,0xf
+MAP1_1 0x06019c14 snd_SetVolumeBoth CONFIRM snd_SetVolumeBoth passes one arg twice to sound helper
+MAP1_1 0x06019c26 snd_SendPlayCommand UNSURE snd_SendPlayCommand builds command id 2 block with two params and sends; exact meaning unclear
+MAP1_1 0x06019e84 snd_SendMasterVolume CONFIRM snd_SendMasterVolume builds command id 3 with volume literal and sends
+MAP1_1 0x06019ea8 snd_PlaySfxSelect UNSURE snd_PlaySfxSelect selects command type and id from args; semantics unclear
+MAP1_1 0x06019f20 snd_SendVolumeCommand UNSURE snd_SendVolumeCommand adds 0x10 to value when flag set; field meaning unclear
+MAP1_1 0x0601ec5c sys_CallWithDefaultArgs UNSURE sys_CallWithDefaultArgs stub passing two pool constants to helper
+MAP1_1 0x0601ee84 gfx_EndFrameSetup UNSURE gfx_EndFrameSetup mode 4 then flag-dependent draw setup, role unclear
+MAP1_1 0x06020074 car_UpdateAll_Large UNSURE car_UpdateAll_Large decompile timed out
+MAP1_1 0x06024574 game_InitStateAndJump CONFIRM game_InitStateAndJump many init calls, pointer table load, tail jump by flag
+MAP1_1 0x06033f50 sys_InitVBlankHandlers CONFIRM sys_InitVBlankHandlers programs timer and registers vectors 0x40 and 0x41
+MAP1_1 0x060341fc vdp2_InitDisplay CONFIRM vdp2_InitDisplay sequence of VDP2 scroll and screen setup calls
+MAP1_1 0x060373dc gfx_DrawTrackSegment_A CONFIRM gfx_DrawTrackSegment_A transforms vertices, depth bucket 0-9, clip flags, tail jump to emitter
+MAP1_1 0x06038d44 gfx_DrawTrackSegment_B CONFIRM gfx_DrawTrackSegment_B same projection and depth bucket logic with clipping, tail jump
+MAP1_1 0x0603a990 gfx_DrawTrackSegment_C CONFIRM gfx_DrawTrackSegment_C name fits the code
+MAP1_1 0x0603d42c libgcc_StoreTail UNSURE libgcc_StoreTail fragment of larger routine
+MAP1_1 0x0603d460 memcpy_WordsJump CONFIRM memcpy_WordsJump name fits the code
+MAP1_1 0x0603da24 libgcc_ShiftDispatch CONFIRM libgcc_ShiftDispatch name fits the code
+MAP1_1 0x060de170 math_SplineResample2D_2 RENAME math_SplineResample2DTangent also outputs tangents
+MAP1_1 0x060de3c8 math_SplineResample3D_2 RENAME math_SplineResample3DTangent also outputs tangents
+MAP1_1 0x060de792 vdp_WaitStatusBit2 UNSURE vdp_WaitStatusBit2 register unidentified
+MAP1_1 0x060defac vdp2_SetScrollScreenConfig CONFIRM vdp2_SetScrollScreenConfig name fits the code
+MAP1_1 0x060e24dc scl_SetColorOffset CONFIRM scl_SetColorOffset name fits the code
+MAP1_1 0x060e4194 gfs_StartRead CONFIRM gfs_StartRead name fits the code
+MAP1_1 0x060e4286 gfs_StartTransferAll CONFIRM gfs_StartTransferAll name fits the code
+MAP1_1 0x060e4402 gfs_ExecServerOne CONFIRM gfs_ExecServerOne name fits the code
+MAP1_1 0x060e447a gfs_ExecServerAll CONFIRM gfs_ExecServerAll loops handles in table calling per-handle server until error, rescans on zero, sets first handle in out param
+MAP1_1 0x060ebb94 math_SinTableInterp UNSURE math_SinTableInterp 16.16 difference indexes 4-byte table pairs with linear interpolation; table contents not shown so sine is assumed
+ROOM1 0x06018dec libgcc_DoubleToFloat CONFIRM libgcc_DoubleToFloat exponent rebias, mantissa truncation with sticky bit, round, inf/NaN and underflow cases
+ROOM1 0x06018ec8 libgcc_IntToFloat CONFIRM libgcc_IntToFloat abs, leading-bit normalize loop, round and pack sign/exponent/mantissa into single
+ROOM1 0x06018fc4 libgcc_DoubleMul CONFIRM libgcc_DoubleMul sign xor, exponent extract, inf/NaN/zero special cases, partial products, result stored via pointer
+ROOM1 0x06019114 libgcc_FloatToDouble CONFIRM libgcc_FloatToDouble widens single to two-word double with denormal normalize and inf/NaN, stores via pointer
+ROOM1 0x0601919c libgcc_FixSfSi CONFIRM libgcc_FixSfSi extracts exponent and mantissa, shifts to integer, applies sign, 0 when out of range
+ROOM1 0x0601935c libgcc_ShiftRightJumpTable CONFIRM libgcc_ShiftRightJumpTable negative count returns value, 0-31 jump table dispatch, 32 or more returns 0
+ROOM1 0x0601a068 printf_FormatDouble CONFIRM printf_FormatDouble builds e/E and fixed digit strings with sign, rounding, exponent digits and padding flags
+ROOM1 0x06080e36 cd_GetStatusCopyThunk CONFIRM cd_GetStatusCopyThunk pure tail call with no args
+ROOM1 0x0608185e gfstrn_SetField2c UNSURE gfstrn_SetField2c tiny setter at +0x2c; field meaning not shown
+ROOM1 0x0608187c gfstrn_SwapField14 UNSURE gfstrn_SwapField14 tiny exchange accessor at +0x14; field meaning not shown
+ROOM1 0x06081882 gfstrn_SetFlag30 UNSURE gfstrn_SetFlag30 tiny setter of +0x30 to 1; meaning not shown
+ROOM1 0x060854f0 math_SinLookupSigned UNSURE math_SinLookupSigned folds abs angle by a limit, table helper call, restores sign; table identity not shown
+ROOM1 0x06085574 math_InterpTable CONFIRM math_InterpTable linear interpolation between 16-bit table entries indexed by high half of difference
+STATION 0x060124b8 vdp1_InitCommandTablesAndPalette CONFIRM vdp1_InitCommandTablesAndPalette sets up command table header words and builds 32-level grey 0x421 ramps and palette copy
+STATION 0x06013dd0 gfx_BuildModelPolysRotated RENAME gfx_BuildPolyCmds3D same 2674-byte routine as the END overlay: camera-relative rotate, perspective, depth sort, then VDP1 command build
+STATION 0x060152e4 render_ProjectPoint RENAME render_PointToCameraAngles computes camera-relative point and returns two angle values (atan-style helper), not a screen projection
+STATION 0x06015452 render_BuildMeshPolys_2 RENAME render_BuildMeshPolysYawed rotates vertex list by cos/sin params and offsets, culls and depth-sorts quads, builds VDP1 commands
+STATION 0x0601610c snd_PlayStreamUntilButton RENAME scu_RunTimedLoopUntilSkip installs SCU vector 0x46 and timer then loops per-frame callback until time limit or skip; no sound call visible
+STATION 0x060168ac text_PlayScriptEntry CONFIRM text_PlayScriptEntry indexes 8-byte table entry and steps lines drawing text until button
+STATION 0x0601717c vdp2_InitTextScreen CONFIRM vdp2_InitTextScreen configures VDP2 screen, colour mode, priorities, palette tables for text
+STATION 0x06017afc stub_Dispatch06017afc RENAME libgcc_ShiftJumpTable identical shape to ROOM1 shift-by-count jump table: negative returns value, under 0x20 dispatch, else 0
+STATION 0x060692c0 vdp2_SetScrollPosition CONFIRM vdp2_SetScrollPosition screen mask selects NBG0 NBG1 NBG2 NBG3 and rotation scroll shadow words
+STATION 0x06069844 vdp2_FlushRegisterGroups CONFIRM vdp2_FlushRegisterGroups per dirty bit copies a shadow register group to VDP2
+STATION 0x060699d0 vdp2_SetPriorityLevels CONFIRM vdp2_SetPriorityLevels masks priority byte into shadow priority words per screen bit
+STATION 0x0606aacc gfs_Init CONFIRM gfs_Init validates open_max 1..0x18, 4-byte alignment, dirtable, then inits state and CD
+STATION 0x0606ad58 gfs_Open CONFIRM gfs_Open validates file id against dir count, allocates handle, initialises from entry
+STATION 0x0606ae04 gfs_Seek CONFIRM gfs_Seek origin 0/1/2 handling with range check and error codes
+STATION 0x0606b94a gfs_ClearWord CONFIRM gfs_ClearWord writes zero to pointed word
+STATION 0x06070f6e gfs_SetHandleField2c UNSURE gfs_SetHandleField2c tiny setter at +0x2c; meaning not shown
+STATION 0x06070f8c gfs_SwapHandleField14 UNSURE gfs_SwapHandleField14 tiny exchange at +0x14; meaning not shown
+STATION 0x06070f92 gfs_SetHandleFlag30 UNSURE gfs_SetHandleFlag30 tiny setter of +0x30 to 1; meaning not shown
+END 0x06013dd0 gfx_BuildPolyCmds3D CONFIRM gfx_BuildPolyCmds3D camera translate, rotation, perspective, screen clamp, behind-camera flag, then VDP1 command build
+END 0x0601706e mem_ZeroAndJump CONFIRM mem_ZeroAndJump clears count plus constant bytes then tail-jumps
+END 0x06017a4a vdp2_SetPlaneAddrAndScroll UNSURE vdp2_SetPlaneAddrAndScroll only three indirect calls with constants; purpose not visible
+END 0x0601804c mem_FillJumpTable RENAME libgcc_ShiftJumpTable same shift-count jump table shape (negative returns value, under 0x20 dispatch, else 0), no fill behaviour
+END 0x0608d7f6 stub_0608d7f6 CONFIRM stub_0608d7f6 2-byte split entry inside textbuf_Init body; decompile is the init sequence
+MAP1_2 0x0603e140 sys_HaltBadData CONFIRM sys_HaltBadData bad instruction data, halt_baddata only
+MAP1_2 0x0603e192 data_GbrOrBytes CONFIRM data_GbrOrBytes misdecoded data as GBR byte OR operations
+MAP4_1 0x060160b0 race_UpdateMain_provisional UNSURE race_UpdateMain_provisional decompile timed out, no body to judge
+MAP4_1 0x06035f7c gfx_DrawTrackSectionA_provisional UNSURE gfx_DrawTrackSectionA_provisional rotates vertex list with 4 short params like mesh builder; track role unproven
+MAP4_1 0x06036934 gfx_DrawTrackSectionB_provisional UNSURE gfx_DrawTrackSectionB_provisional similar variant of polygon builder; track role unproven
+MAP4_1 0x06037e74 gfx_DrawTrackSectionC_provisional UNSURE gfx_DrawTrackSectionC_provisional copies globals to stack, depth-tests and tail-jumps; track role unproven
+MAP4_1 0x060397bc gfx_DrawTrackSectionD_provisional RENAME gfx_ProjectLodStripD same structure as ProjectLodStrip: rotates strip points, perspective divide, depth LOD 0-9 then tail jump
+MAP4_1 0x0603b180 gfx_DrawTrackSectionE_provisional RENAME gfx_ProjectLodStripE same structure as ProjectLodStrip: rotates strip points, perspective divide, depth LOD 0-9 then tail jump
+MAPW1_1 0x060120ce math_GetResultElementE UNSURE math_GetResultElementE helper fills small array and returns indexed element; purpose unclear
+MAPW1_1 0x0601292c race_LargeRoutine_0601292c UNSURE race_LargeRoutine_0601292c decompile timed out; no body to judge
+MAPW1_1 0x0601d42c race_AdvanceSetupStep CONFIRM race_AdvanceSetupStep step counter capped at 10, blits glyphs, plays sfx, inits two car slots, sets state 5
+MAPW1_1 0x0601dd4c hud_DrawStartLights CONFIRM hud_DrawStartLights draws grid of light sprites with 0-4 state switch (countdown lights)
+MAPW1_1 0x06039948 gfx_ProjectLodStrip CONFIRM gfx_ProjectLodStrip depth LOD select and strip vertex rotate/project with clip flag
+MAPW1_1 0x06041b68 gfx_ProjectScaledVertices CONFIRM gfx_ProjectScaledVertices scales and rotates vertex list to screen with perspective
+MAPW1_1 0x0604379c misc_JumpTableDispatch CONFIRM misc_JumpTableDispatch indexed byte-offset jump table for index below 0x20
+MAPW2_1 0x060125ce course_InitIceBackground CONFIRM course_InitIceBackground decompresses LZSS, fills VDP2 rows, loads GG9_ICE.BIN, sets up scroll screens
+MAPW2_1 0x06034ac0 course_InitRaceState CONFIRM course_InitRaceState sets race globals and camera object, builds 32-entry palette, fills table by divide loop
+MAPW4_2 0x0601255e course_InitGasuBackground CONFIRM course_InitGasuBackground same VDP2 background init loading GG9_GASU.BIN
+MAPW6_1 0x06012218 race_SpawnTrackObjectsTable CONFIRM race_SpawnTrackObjectsTable long series of object spawn calls with type ids and positions
+MAPW6_1 0x060165f4 race_LargeRoutine_060165f4 UNSURE race_LargeRoutine_060165f4 decompile timed out; no body to judge
+MAPW6_1 0x06024cd8 race_InitCourseData CONFIRM race_InitCourseData copies course tables, builds pointer table, branches on flag
+ROOM3 0x0607bdf4 sys_GetConstant_r3 UNSURE sys_GetConstant_r3 returns literal pool word; meaning unknown
+ROOM3 0x06081d6e cd_GetStatusCopyStub_r3 CONFIRM cd_GetStatusCopyStub_r3 tail call to cd_GetStatusCopy
+ROOM3 0x06082796 gfs_SetObjField2c_r3 UNSURE gfs_SetObjField2c_r3 tiny setter at +0x2c; field meaning unclear
+ROOM3 0x060827b4 gfs_SwapObjField14_r3 CONFIRM gfs_SwapObjField14_r3 stores new value at +0x14 and returns old
+ROOM3 0x060827ba gfs_SetObjFlag30_r3 UNSURE gfs_SetObjFlag30_r3 tiny setter writes 1 at +0x30; field meaning unclear
+PROLOGUE 0x060a6ec4 sys_GetConstant_pl UNSURE sys_GetConstant_pl returns literal pool word; meaning unknown
+PROLOGUE 0x060ac6a6 cd_GetStatusCopyStub_pl CONFIRM cd_GetStatusCopyStub_pl tail call to cd_GetStatusCopy
+PROLOGUE 0x060ad0ce gfs_SetObjField2c_pl UNSURE gfs_SetObjField2c_pl tiny setter at +0x2c; field meaning unclear
+PROLOGUE 0x060ad0ec gfs_SwapObjField14_pl CONFIRM gfs_SwapObjField14_pl stores new value at +0x14 and returns old
+PROLOGUE 0x060ad0f2 gfs_SetObjFlag30_pl UNSURE gfs_SetObjFlag30_pl tiny setter writes 1 at +0x30; field meaning unclear
+TITLE_OP 0x060120b0 vdp2_InitTitleBackground CONFIRM vdp2_InitTitleBackground tile copy, VDP2 map fill, scroll screen config, priorities, zoom
+TITLE_OP 0x06012486 vdp_WaitFrame_2 CONFIRM vdp_WaitFrame_2 waits status bit then frame sync and clears frame flag
+TITLE_OP 0x060125cc vdp_InitDisplay CONFIRM vdp_InitDisplay vblank handlers, VDP2 reset, VDP1 init, erase area, display on
+TITLE_OP 0x06012728 title_InitPalettes CONFIRM title_InitPalettes sets title state and builds 32-step grey ramp colour tables
+TITLE_OP 0x06012a58 title_DrawHighlightBox CONFIRM title_DrawHighlightBox counter to 3 then reset, draws rectangle polyline at fixed coords
+TITLE_OP 0x06012afc vdp1_FlushCommandBuffer CONFIRM vdp1_FlushCommandBuffer queues VDP1 command table transfer (0x20 bytes per command) and copies pending words
+TITLE_OP 0x06013ef0 vdp1_BuildProjectedPolyList_2 CONFIRM vdp1_BuildProjectedPolyList_2 projects model vertices with camera offsets and builds VDP1 polygon commands
+TITLE_OP 0x0606243c math_TableInterpTail CONFIRM math_TableInterpTail linear interpolation between 16-bit table entries
+SMPCPK4 0x0607c000 strm_TailCallA UNSURE strm_TailCallA bare tail call through function pointer
+SMPCPK4 0x0607c140 strm_CallVirtualAll CONFIRM strm_CallVirtualAll calls vtable method on one object or all 32 slots
+SMPCPK4 0x0607c18e strm_TailCallB UNSURE strm_TailCallB bare tail call through function pointer
+SMPCPK4 0x0607c3ca strm_TailCallC UNSURE strm_TailCallC bare tail call through function pointer
+SMPCPK4 0x0607c5a0 strm_TailCallD UNSURE strm_TailCallD bare tail call through function pointer
+SMPCPK4 0x0607c5a8 strm_TailCallE UNSURE strm_TailCallE bare tail call through function pointer
+SMPCPK4 0x0607dfb6 cpk_ClearWord UNSURE cpk_ClearWord tiny setter storing zero; use unclear
+SMPCPK4 0x06081158 cpk_TickWithIrqMask CONFIRM cpk_TickWithIrqMask masks interrupts, bumps counter, calls two helpers, restores SR
+SMPCPK4 0x0608119e cpk_CreateHandle CONFIRM cpk_CreateHandle finds free slot of 32, inits ring buffer fields and registers handle
+SMPCPK4 0x0608154c cpk_ServiceAudioQueue CONFIRM cpk_ServiceAudioQueue pops queued audio transfer, patches loop sample, starts next transfer
+SMPCPK4 0x06081d3c cpk_SetStartFrame RENAME cpk_SetVolume field +0x28 is the 5-bit level in the sound play commands; restarts with -1 args when playing
+SMPCPK4 0x06082d88 cpk_SaveTimerBase CONFIRM cpk_SaveTimerBase stores FRT extended count as timer base at +0x34 under irq mask
+SMPCPK4 0x06082e16 cpk_CalcTimeAdjust CONFIRM cpk_CalcTimeAdjust per-mode elapsed ticks via divide helpers aligned to 4
+SMPCPK4 0x06082ec6 cpk_GetFramePosition CONFIRM cpk_GetFramePosition per-mode playback position and elapsed counters into out pointers
+SMPCPK4 0x0608348e cpk_GetFramePositionShort CONFIRM cpk_GetFramePositionShort reduced variant, returns -1 outputs when idle
+SMPCPK4 0x0608389a cd_StubGetStatusCopy CONFIRM cd_StubGetStatusCopy tail call to cd_GetStatusCopy
+SMPCPK4 0x06088646 cpk_DecodeCodebook CONFIRM cpk_DecodeCodebook Cinepak codebook chunk to packed colour words via YUV table
+SMPCPK4 0x06088db6 cpk_DecodeVectorsIntra CONFIRM cpk_DecodeVectorsIntra Cinepak intra strip vector blocks
+SMPCPK4 0x06088f8a cpk_DecodeVectorsInter CONFIRM cpk_DecodeVectorsInter Cinepak inter strip skip/1-vector/4-vector blocks
+SMPCPK4 0x0608918c cpk_DecodeFrame CONFIRM cpk_DecodeFrame frame parser walking strips and codebook/vector chunks
+SMPCPK4 0x0608947e cpk_NotifyObjectsByMask CONFIRM cpk_NotifyObjectsByMask over 32 objects in mode 4 matching mask, counts and calls callback
+SMPCPK4 0x06089590 snd_CopyBytesVerified CONFIRM snd_CopyBytesVerified byte copy to sound register area rewriting until readback matches
+SMPCPK4 0x060895da snd_SendPlayCmdShort RENAME snd_SendUpdateCmd 8-byte command with pan, level and rate only, no address or size, so it updates a playing stream
+SMPCPK4 0x06089740 snd_SendPlayCmdLong CONFIRM snd_SendPlayCmdLong 12-byte play command with format, address, size, level, pan and rate
+SMPCPK4 0x060898bc snd_SendStopCmd CONFIRM snd_SendStopCmd 3-byte command carrying channel number after slot wait
+SMPCPK4 0x06089a64 cpk_GetAudioRingFree CONFIRM cpk_GetAudioRingFree computes unplayed audio amount and copy start/end/length from ring counters
+AAAAA000 0x06023e1e gfs_SetObjField2c_a0 UNSURE gfs_SetObjField2c_a0 tiny setter at +0x2c; field meaning unclear
+AAAAA000 0x06023e3c gfs_SwapObjField14_a0 CONFIRM gfs_SwapObjField14_a0 stores new value at +0x14 and returns old
+AAAAA000 0x06023e42 gfs_SetObjFlag30_a0 UNSURE gfs_SetObjFlag30_a0 tiny setter writes 1 at +0x30; field meaning unclear
+AAAAA000 0x06027a98 sys_GetConstant_a0 UNSURE sys_GetConstant_a0 returns literal pool word; meaning unknown
+AAAAA000 0x0602802e cd_GetStatusCopyStub_a0 CONFIRM cd_GetStatusCopyStub_a0 tail call to cd_GetStatusCopy
+AAAAA001 0x0600879e sys_GetConstant_a1 UNSURE sys_GetConstant_a1 returns literal pool word; meaning unknown
+AAAAA001 0x060095f2 gfs_SetObjField2c_a1 UNSURE gfs_SetObjField2c_a1 tiny setter at +0x2c; field meaning unclear
+AAAAA001 0x06009610 gfs_SwapObjField14_a1 CONFIRM gfs_SwapObjField14_a1 stores new value at +0x14 and returns old
+AAAAA001 0x06009616 gfs_SetObjFlag30_a1 UNSURE gfs_SetObjFlag30_a1 tiny setter writes 1 at +0x30; field meaning unclear
+AAAAA001 0x0600d6d2 cd_GetStatusCopyStub_a1 CONFIRM cd_GetStatusCopyStub_a1 tail call to cd_GetStatusCopy

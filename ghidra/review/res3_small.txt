@@ -1,0 +1,13 @@
+AUTOEXEC 0x060597f8 vdp2_SetPackedFieldRegs CONFIRM vdp2_SetPackedFieldRegs ORs three masked fields (low byte, <<5, <<4) into one VDP2 shadow register; sibling of RamCtl/shadow funcs; called from vdp2_InitDisplay
+AUTOEXEC 0x0605ad9e gfs_FlushFile RENAME gfs_CallOpIfNonEmpty null handle returns error -11, gets size via gfs_GetFileInfo, zero size returns 0 else clears error and calls one helper; flush meaning not shown
+AUTOEXEC 0x0605cd3c text_SetupOutputPtr CONFIRM text_SetupOutputPtr sets two output pointers (base and base+0xc) then text_InitBuffers(arg,2,2,buf,0); called from scu_SetupVblankVectors init
+AUTOEXEC 0x0606315c gfs_StartStream RENAME gfs_QueueStreamOpAndWait stores arg at +0x18, copies a block, queues cdc_QueueSectorOp on handle+0xc, polls until done when queue succeeded (0)
+AUTOEXEC 0x060638f4 cdc_QueueSectorOp CONFIRM cdc_QueueSectorOp validates slot flag, appends 0x10-byte entry (max 0x18) to queue, runs slot0 handler; errors -8/-7; callers are GFS stream open/start
+MENU 0x060187b4 menu_SumLapFractionTable CONFIRM menu_SumLapFractionTable loops 5 entries summing table values indexed by division results, returns divided byte; stored per record in results screen
+MENU 0x060c6554 scl_BuildVramAccessTable CONFIRM scl_BuildVramAccessTable builds cycle-pattern word arrays and counts from config struct bytes (bank enables, pattern table), sets update flag 2
+MAP1_1 0x06019f20 snd_SendVolumeCommand RENAME snd_SendCmdType0Flagged calls snd_CmdPackedFlags(0,0,0,val[+0x10 if flag],0,0); volume meaning unproven, plain description
+ROOM1 0x060854f0 math_SinLookupSigned CONFIRM math_SinLookupSigned abs of angle, clamps/mirrors into quarter range, table interp via math_CosTableInterp, restores sign
+MAP4_1 0x06035f7c gfx_DrawTrackSectionA_provisional RENAME gfx_ProjectLodStripA rotates/projects strip vertices with fixed-point matrix mults, clamps to screen bounds, writes x,y pairs; same family as hand-named gfx_ProjectLodStripD/E
+MAP4_1 0x06036934 gfx_DrawTrackSectionB_provisional RENAME gfx_ProjectLodStripB same projection/clamp structure and four-short signature as A; sibling of gfx_ProjectLodStripD/E
+MAP4_1 0x06037e74 gfx_DrawTrackSectionC_provisional RENAME gfx_ProjectLodStripC copies globals/buffer pointers (0x060bbcd4, 0x060bc314, 0x060bcb14) to stack, projects and range checks; sibling of gfx_ProjectLodStripD/E
+MAPW1_1 0x060120ce math_GetResultElementE RENAME math_LookupWordE calls helper filling small array and returns indexed 32-bit element; siblings at 0601217c already named math_LookupWordC

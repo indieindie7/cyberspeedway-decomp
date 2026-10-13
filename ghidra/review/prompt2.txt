@@ -1,0 +1,12 @@
+Second review of provisional function names in a Sega Saturn SH-2 game decompile (Cyber Speedway, 1995). Research only.
+These names were marked UNSURE in a first review because the function alone did not show enough. Now each entry also has its callers.
+Entry layout: "#### PROG 0x<addr> <name> | <comment>", then the function decompile, then "---- callers: N (names)", then up to 3 caller decompiles.
+Literal-pool pointers are resolved: &name or &DAT_<addr> is the address the code uses; PTR_<name>_<addr> is a pointer to a named function.
+Library context: Sega SBL/SGL-era libraries (GFS file system, CDC CD block, SND sound, SCL/VDP2, VDP1, SCU, SMPC, CPK Cinepak, libgcc, dtoa). Name from what the code does; never copy text from any leaked source.
+For each entry decide, using the body AND how callers use it (arguments passed, result used, the caller's own name and job):
+- CONFIRM: the name fits.
+- RENAME: a clearly better name (same prefix style, letters digits underscore, no _<number> suffix).
+- UNSURE: still not enough evidence. Keep it.
+Write each verdict line to the result file as soon as you decide it (append as you go), in input order, exactly:
+<PROG> 0x<addr> <oldname> CONFIRM|RENAME|UNSURE <newname or oldname> <short reason, one line>
+Every entry gets exactly one line. Edit no other file. At the end reply only with the counts.

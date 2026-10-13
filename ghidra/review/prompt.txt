@@ -1,0 +1,10 @@
+You review provisional function names in a Sega Saturn SH-2 game decompile (Cyber Speedway, 1995). Research only.
+Input file: each entry starts with a line "#### PROG | 0x<addr> func <name> hand provisional: <comment>" followed by the Ghidra decompile of that function (callees and globals already carry names from the same project).
+Library context: the game links the Sega SBL/SGL-era libraries (GFS file system, CDC CD block, SND sound, SCL/VDP2 scroll, VDP1 sprites, SCU, SMPC, CPK Cinepak movie, libgcc helpers, dtoa). Use names in that style but do NOT copy text from any leaked source; name from what the code does.
+For every entry, read the body and decide:
+- CONFIRM: the name fits what the code does. Keep it.
+- RENAME: the name is wrong or vague and the code clearly shows a better one. Give the new name (same prefix style, letters digits underscore only, no _<number> suffix).
+- UNSURE: the code does not show enough to be sure (tiny accessor, unclear data). Keep the name.
+Write the result file with one line per entry, in input order, exactly:
+<PROG> 0x<addr> <oldname> CONFIRM|RENAME|UNSURE <newname or oldname> <short reason, one line, no tabs>
+Every entry must have exactly one line. Do not edit any other file. At the end reply only with the counts of CONFIRM, RENAME, UNSURE.
