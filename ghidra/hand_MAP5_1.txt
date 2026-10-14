@@ -95,7 +95,7 @@
 0x0603cf24 func hud_BlitGlyph24RowsToBuf hand copies 0x18 glyph rows to one of two destination buffers chosen by param_2, sets flag 0x19 (twin MAP1_1:0603d008)
 0x0603d226 func hud_BlitGlyph40RowsToBuf hand copies 0x28 glyph rows to one of two destination buffers chosen by param_2, sets flag 0x19 (twin MAP1_1:0603d30a)
 0x0603d500 func sh2_HwDivide32 hand stores r0 and r1 into struct, clears third word, returns pair of loaded values (twin MAP1_1:0603d42c) (was libgcc_StoreTail)
-0x0603d7b0 func libgcc_MulDf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (twin MAP1_1:0603d6dc)
+0x0603d7b0 func __muldf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (twin MAP1_1:0603d6dc) (bsim audit 10-14: was libgcc_MulDf3)
 0x060bf658 func vdp1_Init hand sets TVMR, FBCR, erase colour and write area, writes end command at command table start, SPR_Initial style (twin AUTOEXEC:06057958)
 0x060bf724 func vdp1_SetTvMode hand writes TVMR mode bits, looks up frame width and height from table, interlace doubling, FBCR flags (twin AUTOEXEC:06057a24)
 0x060bf8f8 func vdp1_SetVblankErase hand sets or clears the VBE bit 0x10 in the TVMR shadow value (twin AUTOEXEC:06057bf8)

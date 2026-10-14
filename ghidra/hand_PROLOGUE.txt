@@ -45,7 +45,7 @@
 0x06017392 func libgcc_ShlTail14 hand jump-table tail fragment returning r0 shifted left 14 (twin AUTOEXEC:06017866)
 0x06017428 func libgcc_ShrTail28 hand jump-table tail fragment returning r0 shifted right 28 logical (twin AUTOEXEC:060178fc)
 0x06017476 func libgcc_SarTail8 hand jump-table tail fragment returning r0 arithmetic shifted right 8 (twin AUTOEXEC:0601794a)
-0x0601773c func math_DoubleMul hand soft-float IEEE double multiply (__muldf3) with NaN/inf/denormal handling and rounding (twin STATION:06017f5c)
+0x0601773c func __muldf3 hand soft-float IEEE double multiply (__muldf3) with NaN/inf/denormal handling and rounding (twin STATION:06017f5c) (bsim audit 10-14: was math_DoubleMul)
 0x060174c8 func memcmp hand compares n bytes, returns difference of first differing bytes (twin AUTOEXEC:06018e7c)
 0x06017504 func memmove hand overlap-safe byte copy, forward or backward depending on pointer order (twin AUTOEXEC:06018eb8)
 0x0601754c func memset hand fills n bytes with value, returns dest (twin AUTOEXEC:06018f00)
@@ -295,7 +295,7 @@
 0x060152e4 func render_ProjectPoint hand rotates point relative to camera with fixed-point matrix, returns pointer to screen x,y pair using atan-style helper (twin AUTOEXEC:06015318)
 0x06015452 func render_BuildMeshPolys_2 hand second large mesh pass like object polys, transform, cull and emit VDP1 commands (twin AUTOEXEC:06015486)
 0x06015fe8 func snd_LoadDriverAndBanks_2 hand loads SDDRVS.TSK, TEMP.BIN, MENU_SE.BIN via file calls, inits sound driver (variant with arg 1), returns 0x50 (twin MENU:06015f48)
-0x060161ac func snd_PlayStreamUntilButton hand masks interrupts, sets timer vector 0x46, starts stream, loops sending chunks until end or button pressed (twin AUTOEXEC:06016140)
+0x060161ac func scu_RunTimedLoopUntilSkip hand masks interrupts, sets timer vector 0x46, starts stream, loops sending chunks until end or button pressed (twin AUTOEXEC:06016140) (bsim audit 10-14: was snd_PlayStreamUntilButton)
 0x060164b0 func snd_LoadDriverAndBanks hand loads files SDDRVS.TSK, TEMP.BIN and MENU_SE.BIN via file calls, inits sound driver and starts sound, returns 0x50 (twin AUTOEXEC:06016444)
 0x060171fc func memcpy_WordsJump hand copies r0 bytes from r2 to r1: jump table for under 0x41 bytes else 8-byte loop (twin AUTOEXEC:06017658)
 0x060a349c func vdp1_SetEraseWriteArea hand writes EWDR colour and EWLR/EWRR upper-left and lower-right coordinates packed x/8*0x200+y (twin AUTOEXEC:06057b04)
@@ -393,7 +393,7 @@
 0x060afc0e func cdc_RunSlot6_FilterConnection hand slot 6 loops queued triples calling connection command with flag bits 1 and 2, compacts remainder (twin AUTOEXEC:06064a52)
 0x060b0d12 func cdc_GetFileInfo hand CD block command 0x73 with 24-bit id, then decodes record via helper (twin AUTOEXEC:06065ab6)
 0x060a5218 func scl_SetColorOffset hand SCL_SetColOffset-like: A/B select, r,g,b offsets, screen mask bits write COEN/COSL/offset registers (twin MENU:060c78e0)
-0x06013dd0 func gfx_BuildSortedPolyList hand transforms vertices with matrix, projects with division, culls backfaces, averages depth, quicksorts, writes VDP1 command entries by polygon type
+0x06013dd0 func render_BuildObjectPolys hand transforms vertices with matrix, projects with division, culls backfaces, averages depth, quicksorts, writes VDP1 command entries by polygon type (bsim audit 10-14: was gfx_BuildSortedPolyList)
 0x06016730 func prologue_Main hand masks IRQ, inits CD, loads sound driver, polls, calls setup, mode select and cutscene sequence, then spins forever
 0x06016760 func prologue_LoadImageToVram hand lzss decompresses image then DMA copies in chunks to VDP2 VRAM destination, advancing source and destination
 0x060167d8 func prologue_PlayStorySlides hand plays sound track 0xc, fades slides in and out with color offset, skippable by button, then loads ROOM1.BIN

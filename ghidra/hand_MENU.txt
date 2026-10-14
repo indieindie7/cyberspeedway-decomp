@@ -327,7 +327,7 @@
 0x060152e4 func render_ProjectPoint hand rotates point relative to camera with fixed-point matrix, returns pointer to screen x,y pair via atan-style helper
 0x06015452 func render_BuildMeshPolys_2 hand second large mesh pass like object polys: transform, cull, emit VDP1 commands
 0x06015f48 func snd_LoadDriverAndBanks_2 hand loads SDDRVS.TSK, TEMP.BIN, MENU_SE.BIN via file calls, inits sound driver (variant with arg 1), returns 0x50
-0x0601610c func snd_PlayStreamUntilButton hand masks interrupts, sets timer vector 0x46, starts stream chunks, loops until end or button press, stops stream
+0x0601610c func scu_RunTimedLoopUntilSkip hand masks interrupts, sets timer vector 0x46, starts stream chunks, loops until end or button press, stops stream (bsim audit 10-14: was snd_PlayStreamUntilButton)
 0x06016410 func snd_LoadDriverAndBanks hand loads SDDRVS.TSK, TEMP.BIN, MENU_SE.BIN via file calls, inits sound driver (variant with arg 2), returns 0x50
 0x060165b8 func snd_PlayTrackCommand hand sends sound command block with track number param+1 and volume 99, then sets master volume by flag
 0x06016730 func menu_SelectFromThreeLoop hand draws 3-item cursor menu, up/down moves selection 0..2 until confirm, returns index
@@ -386,7 +386,7 @@
 0x0601bd7a func printf_FormatInteger hand converts integer to digits for d i u o x X with sign, # prefix, padding computations
 0x0601bff4 func printf_FormatDouble hand formats double for e f g conversions: unpack, digit generation, exponent, rounding, inf/nan marks
 0x0601c8fa func printf_PutChars hand outputs n chars to stream: block write function in buffer mode else per-char putc, counts written
-0x0601cb84 func libgcc_MulDf3 hand soft-float double multiply using 32x32 partial products, handles NaN/Inf/zero, normalise, round
+0x0601cb84 func __muldf3 hand soft-float double multiply using 32x32 partial products, handles NaN/Inf/zero, normalise, round (bsim audit 10-14: was libgcc_MulDf3)
 0x0601ccd4 func libgcc_UnsignedToDouble hand converts unsigned 32-bit r0 to IEEE double stored via stack pointer by normalising leading bit
 0x0601cdcc func dtoa_ScaleToDigits hand decimal conversion of double: finds exponent, scales, generates digits with compare/round loop
 0x0601d094 func dtoa_BigToDigits hand long division producing decimal digit characters into buffer from bignum

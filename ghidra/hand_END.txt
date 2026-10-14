@@ -60,7 +60,7 @@
 0x06019d50 func libgcc_FloatSiDf hand converts signed 32-bit int to IEEE double stored to pointer, normalising by leading zeros (twin AUTOEXEC:060194b4)
 0x06019e36 func dfpack_SignedInf hand soft-double helper storing infinity with sign and zero low word (twin AUTOEXEC:0601959a)
 0x06019e3e func dfpack_NaN hand soft-double helper storing exponent all ones with nonzero low word (NaN) (twin AUTOEXEC:060195a2)
-0x06019e48 func libgcc_DivDf3 hand soft-float double divide: unpack exponents, long-division subtract loop, inf and NaN cases (twin AUTOEXEC:060195ac)
+0x06019e48 func __muldf3 hand soft-float double divide: unpack exponents, long-division subtract loop, inf and NaN cases (twin AUTOEXEC:060195ac) (bsim audit 10-14: was libgcc_DivDf3)
 0x06019f98 func libgcc_EqDf2 hand double equality compare handling NaN, returns 0 if equal else 1 (twin AUTOEXEC:060196fc)
 0x0601a02c func strlen hand counts characters until NUL (twin AUTOEXEC:06019790)
 0x0601a03c func strncmp hand compares up to n chars stopping at NUL, returns byte difference (twin AUTOEXEC:060197a0)
@@ -320,7 +320,7 @@
 0x060124b8 func vdp1_InitCommandTablesAndPalette hand initialises draw state, view structure fields, builds 32-entry gray ramp (i*0x421) into palette tables
 0x060127d6 func vdp1_CopyCommandListToVram hand toggles frame buffer parity, sets view offset, copies queued 32-byte commands to VDP1 table plus extra word pairs
 0x06013260 func render_BuildTrackPolys hand transforms vertex list with rotation matrix and clamps to screen, then emits 32-byte VDP1 polygon commands, culling backfaces (types 0-3, 6)
-0x06013dd0 func gfx_BuildPolyCmds3D hand translates vertices by camera, applies rotation matrices and perspective division, clamps to screen limits, flags behind-camera points
+0x06013dd0 func render_BuildObjectPolys hand translates vertices by camera, applies rotation matrices and perspective division, clamps to screen limits, flags behind-camera points (bsim audit 10-14: was gfx_BuildPolyCmds3D)
 0x06014ac0 func gfx_LoadTextureList8 hand parses byte-coded records (types 1-3) copying texture pixel data into VRAM and filling per-texture address, size and color-mode tables (8-bit ids)
 0x06014ece func gfx_LoadTextureList16 hand parses records (types 1-3) like gfx_LoadTextureTable8 but with 16-bit texture ids; copies pixels to VRAM and fills tables
 0x060152e4 func render_ProjectPoint hand subtracts camera position, rotates by camera matrices, returns pointer to projected screen x,y pair of shorts

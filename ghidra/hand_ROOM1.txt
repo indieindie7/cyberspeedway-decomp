@@ -318,7 +318,7 @@
 0x060152e4 func render_ProjectPoint hand rotates a 3D point relative to camera by two angles then perspective divides, returns pointer to x,y pair
 0x06015452 func render_BuildMeshPolys_2 hand projects model vertices with four position args and appends shaded quad commands to VDP1 list, updates global list pointer and count
 0x06015f2c func sys_SetInterruptMask hand tail-calls interrupt mask helper with mask 0xffffffff and value 3
-0x0601610c func snd_PlayStreamUntilButton hand masks interrupts, sets vector 0x46, starts audio stream of given length, feeds chunks until done or button pressed
+0x0601610c func scu_RunTimedLoopUntilSkip hand masks interrupts, sets vector 0x46, starts audio stream of given length, feeds chunks until done or button pressed (bsim audit 10-14: was snd_PlayStreamUntilButton)
 0x06016410 func snd_LoadDriverAndBanks hand loads SDDRVS.TSK, TEMP.BIN and MENU_SE.BIN via file calls, initializes sound driver, sets volumes, returns 0x50
 0x060165b8 func snd_PlayTrackCommand hand sends sound command block with track number plus one and param, then sets volume depending on option flag
 0x06016730 func scene_PlayTextSequence hand loops over table entries by index, draws text with sprites, plays sound 0x3c/0x40, waits for button between pages

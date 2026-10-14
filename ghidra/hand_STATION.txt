@@ -287,7 +287,7 @@
 0x060124b8 func vdp1_InitCommandTablesAndPalette hand init VDP1 command table/clip setup, builds 32-level grey 0x421 colour ramps and palette copy
 0x060127d6 func vdp1_CopyCommandListToVram hand copies 32-byte VDP1 command entries to alternating buffer, flips toggle, then appends pending command words
 0x06013260 func render_BuildTrackPolys hand transforms vertices with clamp-to-screen, backface test, emits 8-word VDP1 polygon commands, quad types 0-3 and 6
-0x06013dd0 func gfx_BuildPolyCmds3D hand rotates model vertices by param angles/offset, projects, then builds VDP1 polygon commands (was gfx_BuildModelPolysRotated)
+0x06013dd0 func render_BuildObjectPolys hand rotates model vertices by param angles/offset, projects, then builds VDP1 polygon commands (was gfx_BuildModelPolysRotated) (bsim audit 10-14: was gfx_BuildPolyCmds3D)
 0x06014ac0 func gfx_LoadTextureList8 hand parses tagged list of textures (types 1-3), copies pixel data into VDP1 VRAM, records size/address tables
 0x06014ece func gfx_LoadTextureList16 hand variant of texture upload loop with different table pointers, copying bitmaps into VDP1 VRAM
 0x060152e4 func render_PointToCameraAngles hand rotates point relative to camera and returns two angle values via atan-style helper (was render_ProjectPoint)
@@ -296,7 +296,7 @@
 0x06016410 func snd_LoadDriverAndBanks hand loads SDDRVS.TSK, TEMP.BIN, MENU_SE.BIN from CD, inits sound driver and volumes
 0x06016730 func room_StartTextScript hand stores script pointer, loads its text data pointer and first byte
 0x06016754 func stub_06016754 hand returns 0
-0x0601676c func text_PlayDialogScript hand scrolls dialog text with per-frame callbacks, advance on button, end clears SCU mask state
+0x0601676c func room_PlayTextScene hand scrolls dialog text with per-frame callbacks, advance on button, end clears SCU mask state (bsim audit 10-14: was text_PlayDialogScript)
 0x060168ac func text_PlayScriptEntry hand looks up entry in table by index, steps lines drawing text positions 4 and 0x40 until button
 0x060169b8 func station_ShowDialogScene1 hand sets two text scripts, plays them with branching on flag and counter threshold
 0x06016af8 func station_ShowDialogScene2 hand dialog scene variant, two scripts branching on flag and counter threshold
@@ -312,7 +312,7 @@
 0x060176fc func cd_LoadFileZeroedBuffer hand zeroes destination buffer then calls loader with same args
 0x0601780c func memcpy_WordsJump hand copies by length: jump table for <=0x40 bytes else 8-byte loop (r0=len, r1=dst, r2=src)
 0x06017afc func libgcc_ShiftJumpTable hand bounds-checks r1 below 0x20 then jumps via byte offset table (was stub_Dispatch06017afc)
-0x06017f5c func math_DoubleMul hand soft-float IEEE double multiply (__muldf3) with NaN/inf/denormal handling and rounding
+0x06017f5c func __muldf3 hand soft-float IEEE double multiply (__muldf3) with NaN/inf/denormal handling and rounding (bsim audit 10-14: was math_DoubleMul)
 0x06067c5c func vdp1_SetEraseWriteArea hand stores five rect params, shifts by mode and packs into x/y registers (*0x200+)
 0x06067de8 func vdp1_SetFbcrMode hand sets TVMD-style resolution/interlace bits from three mode args, switches display mode flag
 0x06067fc0 func vdp2_SetVramBankRoles hand builds zoom/reduction control bits (modes 0-4 per NBG, 1/2 1/4 shifts) from param struct into VDP2 shadow regs (was vdp2_SetVramCyclePattern)

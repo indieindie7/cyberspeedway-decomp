@@ -286,8 +286,8 @@
 0x0601d800 func pad_PollFrameAndHandleReset hand waits vblank, decodes digital/analog pad bits for two pads, reboots via SMPCPK4.BIN on reset combo
 0x0601db4c func hud_DrawRaceFinishBanner hand draws row of sprites at scrolling y, banner slides up over time
 0x0601dc10 func pad_SelectButtonConfig hand per-player button mapping preset 0 to 2 from pad bits, random fill in demo mode
-0x0601dea4 func gfx_FlushDrawQueueA hand walks queued draw entries, dispatches by type code 0 or 99 or other, then resets queue pointers
-0x0601e0e4 func gfx_FlushDrawQueueB hand twin of FlushDrawQueueA using second queue arrays and dispatchers
+0x0601dea4 func gfx_FlushTrackSegmentQueue hand walks queued draw entries, dispatches by type code 0 or 99 or other, then resets queue pointers (bsim audit 10-14: was gfx_FlushDrawQueueA)
+0x0601e0e4 func gfx_FlushTrackSegmentQueue_2 hand twin of FlushDrawQueueA using second queue arrays and dispatchers (bsim audit 10-14: was gfx_FlushDrawQueueB)
 0x0601e494 func gfx_QueueDrawEntry hand appends seven shorts plus terminator 99 to parallel queue arrays, increments count
 0x0601e78c func menu_PauseMenu hand pause menu on start button with cursor selection, resume or exit, sets next program
 0x0601ea2a func sys_ExitToNextProgram hand copies state then loads END.BIN, ROOM2-6.BIN or MENU.BIN overlay depending on mode and course
@@ -307,7 +307,7 @@
 0x0601fcf0 func math_Sign hand returns 1, -1 or 0 for sign of short argument
 0x0601fd2e func race_ResetAndClearCounters hand calls ranking reset and zeroes three counters
 0x0601fd54 func car_InitState hand initialises car struct at index: position, heading, speeds, weapon and lap fields, spawn offsets by mode
-0x06020074 func car_UpdatePlayer hand 11410-byte routine, decompile timed out, likely main per-car physics and AI update (was car_UpdateAll_Large)
+0x06020074 func car_UpdatePlayer hand human car physics (pad steer, speed scalar, grip-blend velocity, hover, walls); decoded 10-13, see NOTES Movement physics
 0x060233d0 func ai_SteerTowardsTarget hand samples terrain/target angles ahead, adjusts yaw and pitch rates and car velocity with limits
 0x06023814 func math_AngleDifference hand masked difference of two angles wrapped to signed range
 0x06023834 func car_ApplyDamage hand accumulates damage at +0x34, at limit sets destroyed state and copies respawn data
@@ -322,7 +322,7 @@
 0x0602f3b0 func math_Atan2 hand computes 16-bit angle from dx,dy using division and arctangent lookup table with quadrant fixups
 0x0602f534 func fx_SpawnSparkBurst hand spawns 12 type-6 particles at position with random offsets and velocities via rng_Next
 0x0602f66c func fx_SpawnSmokePuffs hand spawns 8 type-7 particles at position with random offsets and small random values
-0x0602f79c func car_UpdatePhysics hand big per-car update: velocity, car-to-car bumps with sparks, steering, grip, slope, position and angle tables
+0x0602f79c func car_UpdatePhysics hand per-slot SoA update (13 slots) called from cam_ComputeCarVisibility: car-car bumps, waypoint AI, target speed, rubber band (partly decoded)
 0x06031f24 func car_ClearArrays hand zeroes per-car state arrays for 13 car slots, resets globals, sets mode value 2
 0x06032054 func game_SetRaceMode hand stores a 16-bit argument into a global game mode variable
 0x06032060 func car_InitSlot hand initialises car slot arrays (position, angle, speed, flags) from arguments; slot 0 gets randomised extra value
@@ -382,7 +382,7 @@
 0x0603d30a func hud_BlitGlyph40RowsToBuf hand copies 0x28 glyph rows to one of two destination buffers chosen by param_2, sets flag 0x19
 0x0603d42c func sh2_HwDivide32 hand stores r0 and r1 into struct, clears third word, returns pair of loaded values (was libgcc_StoreTail)
 0x0603d460 func memcpy_WordsJump hand for length up to 0x40 jumps via table else copies words in loop (memcpy tail)
-0x0603d6dc func libgcc_MulDf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer
+0x0603d6dc func __muldf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (bsim audit 10-14: was libgcc_MulDf3)
 0x0603da24 func libgcc_ShiftDispatch hand shift count under 0x20 dispatches via byte offset table, negative returns input, else 0
 0x060dd744 func math_IntSqrt hand Newton iteration integer square root with divide helper, zero returns 0, negative returns constant
 0x060dd796 func math_Hypot2D hand length of vector (x,y) via scaling, squares, integer square root; large inputs use shifted path

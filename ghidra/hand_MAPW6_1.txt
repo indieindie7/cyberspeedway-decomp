@@ -453,7 +453,7 @@
 0x06021c28 func map_RenderTileView_2 hand variant of tile view renderer reading position and angle from globals, same tile loops and clip offsets (twin MAPW1_1:0601cc60)
 0x060223f4 func race_AdvanceSetupStep hand increments step counter, blits 40-row glyphs, plays sfx, initialises two car slots, sets state 5 (twin MAPW1_1:0601d42c)
 0x06022af0 func hud_DrawStartLights hand draws row of indicator sprites at fixed coordinates by lap-count state 0-4 switch (twin MAPW1_1:0601dd4c)
-0x06022dac func menu_UpdateOptionSelect hand per-player option cursor 0-2 from pad bits, copies option parameters from tables on change, divide-based animation (twin MAPW1_1:0601e008)
+0x06022dac func pad_SelectButtonConfig hand per-player option cursor 0-2 from pad bits, copies option parameters from tables on change, divide-based animation (twin MAPW1_1:0601e008) (bsim audit 10-14: was menu_UpdateOptionSelect)
 0x060232cc func gfx_DrawQueuedEntries hand loops queued entries, dispatches by type 0, 99 or other to one of four draw helpers with eight or nine args (twin MAPW1_1:0601e528)
 0x06023506 func gfx_DrawQueuedEntries_2 hand loops queued entries, dispatches by type 0, 99 or other to draw helpers, shares two helpers (twin MAPW1_1:0601e762)
 0x0602374c func gfx_DrawQueuedEntries_3 hand loops queued entries, dispatches by type 0, 99 or other to draw helpers, uses entry values when nonzero (twin MAPW1_1:0601e9a8)
@@ -467,11 +467,11 @@
 0x06038158 func gfx_BuildSortedQuadCommands hand transforms vertices, backface-culls quads, depth-sorts by averaged z, writes 32-byte VDP1 commands (types 1 and 2) (twin MAPW1_1:06038274)
 0x06038d4c func gfx_LoadTextureTable hand parses texture list by type (1 4bpp, 2 8bpp, 0xf alias copy), loads each into VRAM tables (twin MAPW1_1:06038e68)
 0x060390e0 func gfx_ProjectLineToBucket hand projects two 3D points to screen with divide, clips, appends type-6 line command to depth bucket list (twin MAPW1_1:060391fc)
-0x0603982c func gfx_ProjectLodStrip hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant A) (twin MAPW1_1:06039948)
-0x0603b22c func gfx_ProjectLodStrip_2 hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant B) (twin MAPW1_1:0603b348)
-0x0603ccb0 func gfx_ProjectLodStrip_3 hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant C) (twin MAPW1_1:0603cdcc)
-0x0603e664 func gfx_ProjectLodStrip_4 hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant D) (twin MAPW1_1:0603e780)
-0x06040000 func gfx_ProjectLodStrip_5 hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant E) (twin MAPW1_1:0604011c)
+0x0603982c func gfx_ProjectLodStripA hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant A) (twin MAPW1_1:06039948) (bsim audit 10-14: was gfx_ProjectLodStrip)
+0x0603b22c func gfx_ProjectLodStripB hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant B) (twin MAPW1_1:0603b348) (bsim audit 10-14: was gfx_ProjectLodStrip_2)
+0x0603ccb0 func gfx_ProjectLodStripC hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant C) (twin MAPW1_1:0603cdcc) (bsim audit 10-14: was gfx_ProjectLodStrip_3)
+0x0603e664 func gfx_ProjectLodStripD hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant D) (twin MAPW1_1:0603e780) (bsim audit 10-14: was gfx_ProjectLodStrip_4)
+0x06040000 func gfx_ProjectLodStripE hand picks LOD by depth, projects strip vertices with camera rotation, emits screen points and clip flags (variant E) (twin MAPW1_1:0604011c) (bsim audit 10-14: was gfx_ProjectLodStrip_5)
 0x06041a4c func gfx_ProjectScaledVertices hand picks LOD by depth, scales and rotates vertex list to screen space with perspective divide (twin MAPW1_1:06041b68)
 0x060e818c func vdp2_UpdateRotationParams hand updates scroll A/B rotation parameter tables with sin/cos matrix, scale, and translation (SGL rotation params) (twin MAPW1_1:060e506c)
 0x0601215c func stub_0601215c hand returns a constant short from literal pool (pos MAPW1_1:06012168)
@@ -480,7 +480,7 @@
 0x06042900 func hud_BlitDigitTriple hand copies 8-row digit glyphs from table for ones, tens, hundreds into sprite VRAM at three offsets (pos MAPW1_1:06042a1c)
 0x06042cd0 func hud_BlitSprite40 hand copies 16 rows of 40 bytes from indexed table into one of two VRAM destinations (pos MAPW1_1:06042dec)
 0x06042e68 func hud_BlitThreeDigit hand clamps value 0..999, splits hundreds/tens/ones, copies 16 rows of glyph data per digit into VRAM (pos MAPW1_1:06042f84)
-0x06043470 func libgcc_MulDf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (twin MAP1_1:0603d6dc) (pos MAPW1_1:06043454)
+0x06043470 func __muldf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (twin MAP1_1:0603d6dc) (pos MAPW1_1:06043454) (bsim audit 10-14: was libgcc_MulDf3)
 0x0604386c func misc_JumpTableDispatch hand returns r0 if index negative, else jumps via byte offset table for index below 0x20 (pos MAPW1_1:0604379c)
 0x060e152c func vdp2_TransferPendingRegGroups hand copies shadow groups to VDP2 for each set bit in a pending mask byte (twin MAP1_1:060e02b4) (pos MAPW1_1:060de40c)
 0x060e444c func text_StartRowTransfer hand sets busy flag and copies three buffer parameters to transfer regs, returns 1 if already busy (twin MAP1_1:060e31d4) (pos MAPW1_1:060e132c)
@@ -519,7 +519,7 @@
 0x06034890 func vdp_InitRaceDisplay hand initialises VBlank handlers, VDP2 shadow and priority, VDP1 FBCR/TV mode/erase area, enables display, text buffers
 0x060349c0 func hud_SetViewportPlayer1 hand stores x, x shifted 2, y, param and y-0x38 into player 1 viewport globals
 0x060349de func hud_SetViewportPlayer2 hand stores x, x shifted 2, y, param and y+0x38 into player 2 viewport globals
-0x06034a24 func race_InitPaletteAndRaceState hand copies data, sets many globals, builds 32-step grey ramp palette tables (i*0x421), initialises state struct
+0x06034a24 func gfx_InitColorTables hand copies data, sets many globals, builds 32-step grey ramp palette tables (i*0x421), initialises state struct (bsim audit 10-14: was race_InitPaletteAndRaceState)
 0x060e7336 func mem_ClearTargetWord hand stores zero to the pointed dword
 0x060e9750 func cd_WaitReadyDefault hand calls cd_WaitReady with literal constant argument
 0x060e9f6e func gfstrn_SetField2c hand stores param into transfer object offset 0x2c

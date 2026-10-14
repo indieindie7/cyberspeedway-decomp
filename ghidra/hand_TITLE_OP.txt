@@ -120,5 +120,5 @@
 0x06016ce8 func vdp1_BuildProjectedPolyList_5 hand variant of polygon projection builder with camera offsets and param_4, builds VDP1 commands; returns 0x40
 0x06017ad0 func math_Abs hand returns absolute value of integer argument
 0x06017c10 func libgcc_ShiftJumpTable hand shift helper, r1 negative returns r0, below 0x20 dispatches through byte-offset jump table else 0
-0x06017f44 func libgcc_MulDf3 hand soft-float IEEE double multiply with NaN/Inf/zero/denormal handling, 64x64 partial products, rounding, result stored via pointer
+0x06017f44 func __muldf3 hand soft-float IEEE double multiply with NaN/Inf/zero/denormal handling, 64x64 partial products, rounding, result stored via pointer (bsim audit 10-14: was libgcc_MulDf3)
 0x0606243c func math_TableInterpTail hand tail fragment, computes table index from (constant minus arg)>>16 and linearly interpolates 16-bit table entries

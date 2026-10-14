@@ -96,7 +96,7 @@
 0x0603d18a func hud_BlitGlyph40RowsToBuf hand copies 0x28 glyph rows to one of two destination buffers chosen by param_2, sets flag 0x19 (twin MAP1_1:0603d30a)
 0x0603d464 func sh2_HwDivide32 hand stores r0 and r1 into struct, clears third word, returns pair of loaded values (twin MAP1_1:0603d42c) (was libgcc_StoreTail)
 0x0603d498 func memcpy_WordsJump hand for length up to 0x40 jumps via table else copies words in loop (memcpy tail) (twin MAP1_1:0603d460)
-0x0603d714 func libgcc_MulDf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (twin MAP1_1:0603d6dc)
+0x0603d714 func __muldf3 hand soft-float IEEE double multiply with NaN, infinity, denormal and rounding handling, result stored via stack pointer (twin MAP1_1:0603d6dc) (bsim audit 10-14: was libgcc_MulDf3)
 0x0603da5c func libgcc_ShiftDispatch hand shift count under 0x20 dispatches via byte offset table, negative returns input, else 0 (twin MAP1_1:0603da24)
 0x060db1c8 func vdp1_Init hand sets TVMR, FBCR, erase colour and write area, writes end command at command table start, SPR_Initial style (twin AUTOEXEC:06057958)
 0x060db294 func vdp1_SetTvMode hand writes TVMR mode bits, looks up frame width and height from table, interlace doubling, FBCR flags (twin AUTOEXEC:06057a24)
@@ -509,8 +509,8 @@
 0x06012248 func stub_06012248 hand empty function that only returns
 0x0601224c func course_SpawnTrackObjects hand calls fx_SpawnEffect repeatedly with fixed type ids and constant coordinates, places course scenery/trackside objects (twin MAP1_1:0601224c)
 0x060126c8 func course_SpawnStartProjectiles hand copies three short arrays via memcpy_bytes then loops 6 times calling weapon_SpawnProjectile with type 5
-0x06022b30 func course_DrawTrackSegmentList hand loops over track segment records, calls gfx_DrawTrackSegment_A, _C or gfx_QueueProjectedLine by type (0, 99, other), then resets counter and copies eight globals
-0x06022d70 func course_DrawTrackSegmentList_2 hand loops over track segment records, calls gfx_DrawTrackSegment_A, _C or gfx_QueueProjectedLine by type (0, 99, other), then resets counter and copies eight globals
+0x06022b30 func gfx_FlushTrackSegmentQueue hand loops over track segment records, calls gfx_DrawTrackSegment_A, _C or gfx_QueueProjectedLine by type (0, 99, other), then resets counter and copies eight globals (bsim audit 10-14: was course_DrawTrackSegmentList)
+0x06022d70 func gfx_FlushTrackSegmentQueue_2 hand loops over track segment records, calls gfx_DrawTrackSegment_A, _C or gfx_QueueProjectedLine by type (0, 99, other), then resets counter and copies eight globals (bsim audit 10-14: was course_DrawTrackSegmentList_2)
 0x06023ada func course_GetGlobalShort hand returns a short global as int
 0x06023b04 func course_GetGlobalShort_2 hand returns another short global as int
 0x060e2d66 func mem_ClearWordPtr hand stores zero through pointer argument, tiny helper

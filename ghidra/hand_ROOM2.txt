@@ -350,7 +350,7 @@
 0x06014ece func gfx_LoadTextureList16 hand parses texture list with 16-bit ids types 1-3 copying data to VRAM and filling address and size tables (twin AUTOEXEC:06014f02)
 0x060152e4 func render_ProjectPoint hand rotates point relative to camera with fixed-point matrix, returns pointer to screen x,y pair using atan-style helper (twin AUTOEXEC:06015318)
 0x06015452 func render_BuildMeshPolys_2 hand second large mesh pass like object polys, transform, cull and emit VDP1 commands (twin AUTOEXEC:06015486)
-0x0601610c func snd_PlayStreamUntilButton hand masks interrupts, sets timer vector 0x46, starts stream, loops sending chunks until end or button pressed (twin AUTOEXEC:06016140)
+0x0601610c func scu_RunTimedLoopUntilSkip hand masks interrupts, sets timer vector 0x46, starts stream, loops sending chunks until end or button pressed (twin AUTOEXEC:06016140) (bsim audit 10-14: was snd_PlayStreamUntilButton)
 0x06016410 func snd_LoadDriverAndBanks hand loads files SDDRVS.TSK, TEMP.BIN and MENU_SE.BIN via file calls, inits sound driver and starts sound, returns 0x50 (twin AUTOEXEC:06016444)
 0x06016730 func scene_PlayTextSequence hand loops over table entries by index, draws text with sprites, plays sound 0x3c/0x40, waits for button between pages (twin ROOM1:06016730)
 0x06016ce4 func menu_RunTwoChoiceSelect hand shows two-option screen with cursor toggled by pad, draws labels and stats from record fields 0x70-0x76, returns choice (twin ROOM1:06016ce4)

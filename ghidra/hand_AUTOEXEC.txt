@@ -36,7 +36,7 @@
 0x06015eec func pad_CheckButtonPlaySound_3a_3 hand same button sound 0x3a check with second mask
 0x06015f2c func pad_CheckButtonPlaySound_3a_4 hand same button sound 0x3a check with third pad word mask
 0x060160f4 func snd_StreamNextChunk hand sends one chunk of a sound stream with alternating buffer flag and advances the source pointer
-0x06016140 func snd_PlayStreamUntilButton hand masks interrupts, sets timer vector 0x46, starts stream, loops sending chunks until end or button pressed
+0x06016140 func scu_RunTimedLoopUntilSkip hand masks interrupts, sets timer vector 0x46, starts stream, loops sending chunks until end or button pressed (bsim audit 10-14: was snd_PlayStreamUntilButton)
 0x06016288 func snd_StartStream hand masks interrupts, installs vector 0x46 handler, sets stream range pointers, sends first two chunks and starts
 0x06016394 func snd_StopStreamIfDone hand if stream position passed end stops stream with command 2 and restores interrupt mask, returns 1
 0x06016444 func snd_LoadDriverAndBanks hand loads files SDDRVS.TSK, TEMP.BIN and MENU_SE.BIN via file calls, inits sound driver and starts sound, returns 0x50
@@ -90,7 +90,7 @@
 0x060194b4 func libgcc_FloatSiDf hand converts signed 32-bit int to IEEE double stored to pointer, normalising by leading zeros
 0x0601959a func dfpack_SignedInf hand soft-double helper storing infinity with sign and zero low word
 0x060195a2 func dfpack_NaN hand soft-double helper storing exponent all ones with nonzero low word (NaN)
-0x060195ac func libgcc_DivDf3 hand soft-float double divide: unpack exponents, long-division subtract loop, inf and NaN cases
+0x060195ac func __muldf3 hand soft-float double divide: unpack exponents, long-division subtract loop, inf and NaN cases (bsim audit 10-14: was libgcc_DivDf3)
 0x060196fc func libgcc_EqDf2 hand double equality compare handling NaN, returns 0 if equal else 1
 0x06019790 func strlen hand counts characters until NUL
 0x060197a0 func strncmp hand compares up to n chars stopping at NUL, returns byte difference
